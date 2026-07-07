@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VectorDynamix | Enterprise AI, built for your size</title>
+<meta name="description" content="VectorDynamix is your AI Operating Systems Partner. We redesign how work moves through your business and stay hands-on until your team actually uses it.">
+<meta property="og:title" content="VectorDynamix | Enterprise AI, built for your size">
+<meta property="og:description" content="Most AI projects stall on adoption, not the model. We build the system and stay until your team runs it.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/vdx-mark-dark.png">
+<link rel="preload" href="assets/fonts/dm-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{
+  font-family:"DM Sans";
+  font-style:normal;
+  font-display:swap;
+  font-weight:100 1000;
+  src:url("assets/fonts/dm-sans-variable.woff2") format("woff2-variations");
+}
+/* ============================================================
+   VectorDynamix motion site
+   Brand: Ink #000000 | Vector Blue #0055FE | Dynamo Violet #8059E3
+          Bone #EFEEEC | White #FFFFFF | DM Sans only
+   Gradient budget (used exactly 3 times): hero phrase,
+   final CTA glow, logo arrow (baked into logo assets).
+   ============================================================ */
+:root{
+  --ink:#000000;
+  --blue:#0055FE;
+  --violet:#8059E3;
+  --bone:#EFEEEC;
+  --white:#FFFFFF;
+  --grad:linear-gradient(120deg,#0055FE,#8059E3);
+  /* warm greys, mixed toward Bone */
+  --g-800:#2B2926;
+  --g-700:#454340;
+  --g-600:#57534E;
+  --g-500:#6E6A64;
+  --g-300:#CFCDC8;
+  --g-200:#E2E0DC;
+  --g-100:#F6F5F3;
+  --stage:#DADBDE; /* matches footer video background */
+  --font:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  /* radius system: pills for interactive, 20px cards, 12px inputs */
+  --r-card:20px;
+  --r-input:12px;
+  --nav-h:72px;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{
+  font-family:var(--font);
+  background:var(--bone);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img,video,canvas{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--blue);color:var(--white)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+
+h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
+.h-display{font-size:clamp(2.4rem,5.6vw,4.4rem)}
+.h-section{font-size:clamp(1.9rem,4vw,3.1rem);max-width:21ch}
+.lead{font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--g-600);max-width:56ch;line-height:1.6}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  border-radius:999px;border:1px solid transparent;
+  font-weight:600;font-size:1rem;white-space:nowrap;
+  padding:15px 30px;
+  transition:transform .35s var(--ease),background .35s var(--ease),
+             border-color .35s var(--ease),color .35s var(--ease),box-shadow .35s var(--ease);
+}
+.btn svg{width:18px;height:18px;flex:none;transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translate(2px,-2px)}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--blue);color:var(--white)}
+.btn-primary:hover{background:#0047d4}
+.btn-ghost{border-color:rgba(0,0,0,.25);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-ghost-dark{border-color:rgba(255,255,255,.4);color:var(--white);background:transparent}
+.btn-ghost-dark:hover{border-color:var(--white)}
+/* the single gradient CTA glow: final conversion moment only */
+.btn-glow{position:relative;background:var(--blue);color:var(--white)}
+.btn-glow::before{
+  content:"";position:absolute;inset:-3px;border-radius:inherit;
+  background:var(--grad);filter:blur(14px);opacity:.55;z-index:-1;
+  transition:opacity .35s var(--ease),filter .35s var(--ease);
+}
+.btn-glow:hover::before{opacity:.85;filter:blur(18px)}
+.btn-glow:hover{background:#0047d4}
+
+/* ---------- loader ---------- */
+#loader{
+  position:fixed;inset:0;z-index:9999;background:var(--bone);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .7s var(--ease),visibility .7s;
+}
+#loader.done{opacity:0;visibility:hidden}
+#loader img{width:min(150px,36vw);height:auto}
+#loader .bar{width:150px;height:2px;background:var(--g-300);border-radius:2px;overflow:hidden}
+#loader .bar i{display:block;height:100%;width:0%;background:var(--blue);transition:width .25s ease}
+
+/* ---------- nav ---------- */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);
+  display:flex;align-items:center;
+  transition:background .45s var(--ease),box-shadow .45s var(--ease);
+}
+#nav .wrap{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+#nav .brand{display:flex;align-items:center;gap:12px;flex:none}
+#nav .brand img.mark{height:30px;width:auto}
+#nav .brand img.word{height:17px;width:auto;transform:translateY(1px)}
+#nav .links{display:flex;align-items:center;gap:clamp(16px,2.4vw,32px);font-weight:500;font-size:.95rem}
+#nav .links a{color:var(--white);opacity:.85;transition:opacity .25s}
+#nav .links a:hover{opacity:1}
+#nav .btn{padding:10px 20px;font-size:.9rem}
+#nav .logo-dark{display:none}
+#nav.solid{background:rgba(239,238,236,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+#nav.solid .links a{color:var(--ink)}
+#nav.solid .logo-dark{display:block}
+#nav.solid .logo-light{display:none}
+@media (max-width:820px){
+  #nav .links{display:none}
+  #nav .brand img.word{display:none}
+  #nav .brand img.mark{height:34px}
+}
+
+/* ---------- hero scroll animation ---------- */
+#hero{position:relative;height:420vh;background:var(--ink)}
+#hero .stage{position:sticky;top:0;height:100dvh;overflow:hidden}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%}
+#hero .shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.25) 46%,rgba(0,0,0,0) 70%),
+             linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 30%)}
+#hero .grain{position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.beat{
+  position:absolute;inset:0;display:flex;align-items:center;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateY(26px);filter:blur(6px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease),visibility .7s;
+}
+.beat.visible{opacity:1;visibility:visible;transform:translateY(0);filter:blur(0);pointer-events:auto}
+.beat .inner{max-width:640px;color:var(--white)}
+.beat h1,.beat h2{color:var(--white)}
+.beat .lead{color:rgba(255,255,255,.82)}
+.beat .grad-phrase{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.beat .cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.beat-2 h2,.beat-3 h2{font-size:clamp(1.9rem,4.4vw,3.4rem);max-width:18ch}
+.beat .body-line{margin-top:22px}
+.hero-stats{display:flex;gap:clamp(20px,4vw,54px);margin-top:38px;flex-wrap:wrap}
+.hero-stats div{max-width:180px}
+.hero-stats strong{display:block;font-size:clamp(1.25rem,2.2vw,1.7rem);letter-spacing:-0.02em;line-height:1.2;margin-bottom:6px}
+.hero-stats span{color:rgba(255,255,255,.72);font-size:.92rem;line-height:1.45;display:block}
+@media (max-width:640px){
+  .beat{align-items:flex-end}
+  .beat .inner{padding-bottom:12dvh}
+  .beat .cta-row .btn{padding:13px 22px;font-size:.95rem}
+}
+
+/* ---------- generic reveal ---------- */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+section.block{padding:clamp(84px,11vw,150px) 0}
+.section-head{margin-bottom:clamp(40px,6vw,72px)}
+.section-head .lead{margin-top:18px}
+
+/* ---------- services: sticky stack ---------- */
+#services{padding-bottom:0}
+.stack{position:relative}
+.stack-item{position:sticky;top:calc(var(--nav-h) + 12px);padding-bottom:clamp(28px,4vw,48px)}
+.s-card{
+  background:var(--white);border:1px solid var(--g-200);border-radius:var(--r-card);
+  padding:clamp(28px,4.5vw,56px);
+  box-shadow:0 24px 60px -30px rgba(43,41,38,.25);
+  transform-origin:top center;
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);
+  min-height:min(430px,62dvh);
+}
+.s-card .icon{
+  width:52px;height:52px;border-radius:14px;background:var(--bone);
+  display:flex;align-items:center;justify-content:center;margin-bottom:22px;color:var(--blue);
+}
+.s-card .icon svg{width:26px;height:26px}
+.s-card h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin-bottom:6px}
+.s-card .tag{color:var(--blue);font-weight:600;margin-bottom:16px}
+.s-card p.body{color:var(--g-600);max-width:46ch}
+.s-card ul{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.s-card li{display:flex;gap:12px;align-items:flex-start;color:var(--g-700)}
+.s-card li svg{width:19px;height:19px;flex:none;color:var(--blue);margin-top:3px}
+.s-card .outcome{
+  margin-top:26px;padding-top:20px;border-top:1px solid var(--g-200);
+  font-weight:600;color:var(--ink);
+}
+.s-card .outcome em{font-style:normal;color:var(--g-500);font-weight:500;display:block;font-size:.85rem;margin-bottom:4px}
+@media (max-width:860px){
+  .s-card{grid-template-columns:1fr;min-height:0}
+  .stack-item{position:relative;top:0}
+}
+
+/* ---------- approach: timeline ---------- */
+#approach .timeline{position:relative;margin-left:clamp(4px,2vw,18px)}
+#approach .rail{position:absolute;left:0;top:6px;bottom:6px;width:2px;background:var(--g-300);border-radius:2px}
+#approach .rail i{display:block;width:100%;height:0%;background:var(--blue);border-radius:2px}
+.step{position:relative;padding:0 0 clamp(44px,6vw,72px) clamp(40px,6vw,84px)}
+.step:last-child{padding-bottom:0}
+.step::before{
+  content:"";position:absolute;left:-5px;top:8px;width:12px;height:12px;border-radius:50%;
+  background:var(--bone);border:2px solid var(--g-300);transition:background .5s var(--ease),border-color .5s var(--ease);
+}
+.step.visible::before{background:var(--blue);border-color:var(--blue)}
+.step .num{
+  font-size:clamp(2.6rem,5vw,4rem);font-weight:300;line-height:1;color:var(--g-300);
+  letter-spacing:-0.04em;display:block;margin-bottom:10px;font-variant-numeric:tabular-nums;
+  transition:color .5s var(--ease);
+}
+.step.visible .num{color:var(--blue)}
+.step h3{font-size:clamp(1.3rem,2.2vw,1.7rem);margin-bottom:10px}
+.step p{color:var(--g-600);max-width:52ch}
+
+/* ---------- why: bento + comparison ---------- */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.b-cell{
+  background:var(--white);border:1px solid var(--g-200);border-radius:var(--r-card);
+  padding:clamp(24px,3vw,36px);grid-column:span 2;
+  display:flex;flex-direction:column;gap:10px;justify-content:flex-start;
+}
+.b-cell.span3{grid-column:span 3}
+.b-cell.ink{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.b-cell.ink p{color:rgba(255,255,255,.75)}
+.b-cell.blue{background:var(--blue);border-color:var(--blue);color:var(--white)}
+.b-cell.blue p{color:rgba(255,255,255,.85)}
+.b-cell svg{width:26px;height:26px;margin-bottom:8px}
+.b-cell h3{font-size:1.2rem;letter-spacing:-0.02em}
+.b-cell p{color:var(--g-600);font-size:.95rem}
+@media (max-width:860px){
+  .bento{grid-template-columns:1fr 1fr}
+  .b-cell,.b-cell.span3{grid-column:span 2}
+}
+
+.compare{margin-top:clamp(64px,9vw,110px)}
+.compare h3{font-size:clamp(1.5rem,2.8vw,2.2rem);max-width:20ch;margin-bottom:clamp(30px,4vw,48px)}
+.compare .cols{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:16px;align-items:stretch}
+.c-col{background:var(--white);border:1px solid var(--g-200);border-radius:var(--r-card);padding:clamp(22px,3vw,34px)}
+.c-col header{font-weight:700;font-size:1.1rem;padding-bottom:16px;margin-bottom:4px;letter-spacing:-0.01em}
+.c-col .row{padding:14px 0;border-top:1px solid var(--g-200)}
+.c-col .row em{display:block;font-style:normal;font-size:.8rem;color:var(--g-500);margin-bottom:3px}
+.c-col .row span{font-weight:500}
+.c-col.vdx{background:var(--ink);border-color:var(--ink);color:var(--white);transform:translateY(-10px)}
+.c-col.vdx .row{border-top-color:rgba(255,255,255,.16)}
+.c-col.vdx .row em{color:rgba(255,255,255,.55)}
+@media (max-width:860px){
+  .compare .cols{grid-template-columns:1fr}
+  .c-col.vdx{transform:none;order:-1}
+}
+
+.quote{margin-top:clamp(64px,9vw,110px);max-width:820px}
+.quote blockquote{
+  font-size:clamp(1.25rem,2.4vw,1.75rem);font-weight:500;letter-spacing:-0.02em;line-height:1.4;
+}
+.quote figcaption{margin-top:18px;color:var(--g-500);font-size:.95rem}
+
+/* ---------- FAQ ---------- */
+#faq .list{max-width:820px}
+.qa{border-top:1px solid var(--g-300)}
+.qa:last-child{border-bottom:1px solid var(--g-300)}
+.qa button.q{
+  width:100%;background:none;border:0;text-align:left;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:22px 4px;font-size:clamp(1.05rem,1.8vw,1.25rem);font-weight:600;letter-spacing:-0.01em;color:var(--ink);
+}
+.qa .q svg{width:20px;height:20px;flex:none;color:var(--g-500);transition:transform .4s var(--ease)}
+.qa.open .q svg{transform:rotate(45deg)}
+.qa .a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+.qa .a p{padding:0 4px 24px;color:var(--g-600);max-width:62ch}
+
+/* ---------- newsletter ---------- */
+#newsletter .panel{
+  background:var(--white);border:1px solid var(--g-200);border-radius:var(--r-card);
+  padding:clamp(30px,5vw,64px);
+  display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center;
+}
+#newsletter h2{font-size:clamp(1.6rem,3vw,2.4rem);max-width:18ch}
+#newsletter .lead{margin-top:14px;font-size:1.02rem}
+#newsletter form{display:flex;gap:10px;flex-wrap:wrap}
+#newsletter input{
+  flex:1 1 220px;padding:15px 18px;border-radius:var(--r-input);
+  border:1px solid var(--g-300);background:var(--g-100);font:inherit;color:var(--ink);
+}
+#newsletter input::placeholder{color:var(--g-500)}
+#newsletter input:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+#newsletter .note{margin-top:14px;font-size:.88rem;color:var(--g-500)}
+#newsletter .ok{margin-top:14px;font-weight:600;color:var(--blue);display:none}
+@media (max-width:860px){#newsletter .panel{grid-template-columns:1fr}}
+
+/* ---------- contact banner ---------- */
+#contact .banner{
+  background:var(--ink);border-radius:calc(var(--r-card) + 8px);color:var(--white);
+  padding:clamp(48px,8vw,110px) clamp(24px,6vw,90px);text-align:center;
+  position:relative;overflow:hidden;
+}
+#contact .banner::after{ /* faint echo of the hero core, not a gradient wash */
+  content:"";position:absolute;inset:auto -20% -70% -20%;height:120%;
+  background:radial-gradient(ellipse at center,rgba(0,85,254,.22),rgba(128,89,227,.10) 45%,transparent 70%);
+  pointer-events:none;
+}
+#contact h2{font-size:clamp(1.9rem,4.2vw,3.2rem);max-width:19ch;margin:0 auto}
+#contact .lead{color:rgba(255,255,255,.75);margin:20px auto 0;max-width:52ch}
+#contact .cta-row{display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap;position:relative;z-index:1}
+
+/* ---------- footer ---------- */
+footer{padding:clamp(70px,9vw,120px) 0 40px}
+.f-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:center}
+.f-stage{
+  background:var(--stage);border-radius:var(--r-card);overflow:hidden;
+  border:1px solid var(--g-200);position:relative;
+}
+.f-stage video{width:100%;height:auto;display:block;
+  mask-image:radial-gradient(140% 140% at 50% 50%,#000 62%,transparent 98%);
+  -webkit-mask-image:radial-gradient(140% 140% at 50% 50%,#000 62%,transparent 98%);}
+.f-cta h2{font-size:clamp(1.5rem,2.6vw,2.1rem);max-width:16ch}
+.f-cta p{color:var(--g-600);margin:14px 0 28px;max-width:44ch}
+.f-cta .mail{display:inline-block;margin-top:18px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--g-300);padding-bottom:2px;transition:border-color .3s}
+.f-cta .mail:hover{border-color:var(--ink)}
+.socials{display:flex;gap:12px;margin-top:30px}
+.socials a{
+  width:44px;height:44px;border-radius:999px;border:1px solid var(--g-300);
+  display:flex;align-items:center;justify-content:center;color:var(--ink);
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease);
+}
+.socials a:hover{background:var(--ink);border-color:var(--ink);color:var(--white);transform:translateY(-2px)}
+.socials svg{width:20px;height:20px}
+.f-bottom{
+  margin-top:clamp(48px,7vw,80px);padding-top:26px;border-top:1px solid var(--g-300);
+  display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
+  color:var(--g-500);font-size:.9rem;
+}
+.f-bottom .f-links{display:flex;gap:22px;flex-wrap:wrap}
+.f-bottom .f-links a{color:var(--g-600);font-weight:500}
+.f-bottom .f-links a:hover{color:var(--ink)}
+@media (max-width:860px){.f-grid{grid-template-columns:1fr}}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal,.step,.beat{opacity:1 !important;visibility:visible !important;transform:none !important;filter:none !important;transition:none !important}
+  .beat{position:relative;inset:auto;pointer-events:auto;min-height:0;padding:12vh 0}
+  #hero{height:auto !important;background:var(--ink)}
+  #hero .stage{position:relative;height:auto;min-height:60dvh}
+  .stack-item{position:relative;top:0}
+  .s-card{transform:none !important}
+}
+</style>
+</head>
+<body>
+
+<!-- loader -->
+<div id="loader" aria-hidden="true">
+  <img src="assets/vdx-mark-dark.png" alt="">
+  <div class="bar"><i id="loadbar"></i></div>
+</div>
+
+<!-- nav -->
+<header id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="VectorDynamix home">
+      <img class="mark logo-light" src="assets/vdx-mark-light.png" alt="VDX">
+      <img class="word logo-light" src="assets/vdx-wordmark-light.png" alt="VectorDynamix">
+      <img class="mark logo-dark" src="assets/vdx-mark-dark.png" alt="VDX">
+      <img class="word logo-dark" src="assets/vdx-wordmark-dark.png" alt="VectorDynamix">
+    </a>
+    <nav class="links" aria-label="Sections">
+      <a href="#services">Services</a>
+      <a href="#approach">Our Approach</a>
+      <a href="#why">Why VectorDynamix</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary" href="#contact">Book a Discovery Sprint</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ======================= HERO / scroll film ======================= -->
+<section id="hero" aria-label="Introduction">
+  <div class="stage">
+    <canvas id="film" aria-hidden="true"></canvas>
+    <div class="shade"></div>
+    <div class="grain"></div>
+
+    <div class="beat beat-1 visible" data-show="0" data-hide="0.24">
+      <div class="wrap"><div class="inner">
+        <h1 class="h-display">Enterprise AI, <span class="grad-phrase">built for your size.</span></h1>
+        <p class="lead body-line">Most AI projects stall on adoption, not the model. We build the system and stay until your team runs it.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">Book a Discovery Sprint
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
+          </a>
+          <a class="btn btn-ghost-dark" href="#approach">See how we work</a>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="beat beat-2" data-show="0.30" data-hide="0.56">
+      <div class="wrap"><div class="inner">
+        <h2>The problem was never the model. It's the operating model.</h2>
+        <p class="lead body-line">The tool got bolted onto a broken process. Nobody owned adoption. Six weeks later, everyone went back to the spreadsheet.</p>
+      </div></div>
+    </div>
+
+    <div class="beat beat-3" data-show="0.62" data-hide="0.92">
+      <div class="wrap"><div class="inner">
+        <h2>AI fails in the last mile. That last mile is our entire job.</h2>
+        <div class="hero-stats">
+          <div><strong>Weeks,<br>not quarters</strong><span>From first workflow to working pilot.</span></div>
+          <div><strong>One senior partner</strong><span>Named and accountable. Not an agency queue.</span></div>
+          <div><strong>Workflow first</strong><span>We start with your bottleneck, never the tool.</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SERVICES ======================= -->
+<section id="services" class="block" aria-label="Services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="h-section">Three ways we put AI to work inside real operations.</h2>
+      <p class="lead">We start with the business problem, then build the right AI shape around it. Systems your people can actually use.</p>
+    </div>
+  </div>
+  <div class="wrap stack">
+
+    <div class="stack-item"><article class="s-card">
+      <div>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 7a5 5 0 1 0 5 5"/><path d="M13 3.055a9 9 0 1 0 7.941 7.945"/><path d="M15 6v3h3l3 -3h-3v-3l-3 3"/><path d="M15 9l-3 3"/></svg></div>
+        <h3>AI Discovery Sprint</h3>
+        <p class="tag">Find where AI actually pays, before you spend anything building.</p>
+        <p class="body">Most businesses waste their first AI budget building the wrong thing well. The Sprint maps where AI creates real value in your operation, what to build first, and what to leave alone.</p>
+        <p class="outcome"><em>The outcome</em>You leave with a prioritized plan, not a slide deck.</p>
+      </div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Current-state review of your workflows, pain points, and opportunities</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Use cases prioritized by revenue, cost, or customer experience</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>A clear recommendation on your first pilot or product direction</li>
+      </ul>
+    </article></div>
+
+    <div class="stack-item"><article class="s-card">
+      <div>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M18 5a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M10 5a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M6 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M18 19a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M14 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M22 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M6 12h4"/><path d="M14 12h4"/><path d="M15 7l-2 3"/><path d="M9 7l2 3"/><path d="M11 14l-2 3"/><path d="M13 14l2 3"/></svg></div>
+        <h3>Agentic Setup</h3>
+        <p class="tag">Agents and workflows your team will actually trust.</p>
+        <p class="body">An agent nobody trusts is a liability with a login. We design agentic systems with the human review points, permissions, and context that make them safe to rely on.</p>
+        <p class="outcome"><em>The outcome</em>A working system in production that earned its place.</p>
+      </div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Workflow design with clear human review points</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Tooling, context, and permissions set up properly from day one</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>A pilot that proves itself where the work actually happens</li>
+      </ul>
+    </article></div>
+
+    <div class="stack-item"><article class="s-card">
+      <div>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/></svg></div>
+        <h3>AI Enablement &amp; Training</h3>
+        <p class="tag">Your team, working better with AI.</p>
+        <p class="body">Adoption is a skill, not a memo. We run hands-on enablement grounded in your actual work: the real workflows, the real files, the real decisions.</p>
+        <p class="outcome"><em>The outcome</em>The capability stays after we leave.</p>
+      </div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Team workshops grounded in your real work, not generic examples</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Operating guidelines for how people and AI collaborate daily</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Practical training on adoption, evaluation, and rollout</li>
+      </ul>
+    </article></div>
+
+  </div>
+</section>
+
+<!-- ======================= APPROACH ======================= -->
+<section id="approach" class="block" aria-label="Our approach">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="h-section">We don't add AI. We redesign how work moves.</h2>
+      <p class="lead">Start with the business problem. Build the smallest AI shape that fixes it. Stay until your team runs it without us.</p>
+    </div>
+    <div class="timeline">
+      <div class="rail" aria-hidden="true"><i id="rail-fill"></i></div>
+
+      <div class="step reveal">
+        <span class="num">1</span>
+        <h3>Find the friction</h3>
+        <p>We review your real workflows and rank the bottlenecks by revenue, cost, and customer impact. No AI yet. Just an honest map of where the work gets stuck.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">2</span>
+        <h3>Shape the fix</h3>
+        <p>The smallest system that resolves the highest-value bottleneck first, with human review points designed in, not bolted on. You approve the shape before anything gets built.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">3</span>
+        <h3>Ship a real pilot</h3>
+        <p>We build fast and prove it in your actual operating environment, with your data and your people. You see it working in weeks.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">4</span>
+        <h3>Drive adoption</h3>
+        <p>This is where most projects quietly fail, so it's where we lean in hardest. Enablement, guidelines, and hands-on training until your team reaches for the system on its own.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num">5</span>
+        <h3>Refine and expand</h3>
+        <p>Once the first system sticks, we tune it and find the next bottleneck. One working system at a time compounds into an AI operating model.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= WHY ======================= -->
+<section id="why" class="block" aria-label="Why VectorDynamix">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="h-section">Everyone can say "AI." Almost nobody stays until it works.</h2>
+      <p class="lead">We're not an AI agency and we're not an automation shop. We're your AI Operating Systems Partner, and the difference shows up exactly where other projects fall apart: adoption.</p>
+    </div>
+
+    <div class="bento">
+      <div class="b-cell span3 ink reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 7a5 5 0 1 0 5 5"/><path d="M13 3.055a9 9 0 1 0 7.941 7.945"/><path d="M15 6v3h3l3 -3h-3v-3l-3 3"/><path d="M15 9l-3 3"/></svg>
+        <h3>Workflow-first thinking</h3>
+        <p>We start with the bottleneck, not the tool. The technology is chosen last, in service of the problem. Never the other way around.</p>
+      </div>
+      <div class="b-cell span3 reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065"/><path d="M10 9v6l5 -3l-5 -3"/></svg>
+        <h3>Hands-on implementation</h3>
+        <p>We don't hand you a plan and leave. We build, integrate, and refine inside your real operation until it works.</p>
+      </div>
+      <div class="b-cell reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"/><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M17 10h2a2 2 0 0 1 2 2v1"/><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M3 13v-1a2 2 0 0 1 2 -2h2"/></svg>
+        <h3>Founder-led judgment</h3>
+        <p>A named senior partner carries the context from first call to working system. No junior queue.</p>
+      </div>
+      <div class="b-cell blue reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.984 12.53a9 9 0 1 0 -7.552 8.355"/><path d="M12 7v5l3 3"/><path d="M19 16l-2 3h4l-2 3"/></svg>
+        <h3>Proof velocity</h3>
+        <p>Fast movement from idea to working proof. Value in weeks is the momentum that carries adoption.</p>
+      </div>
+      <div class="b-cell reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M3 17l6 -6l4 4l8 -8"/><path d="M14 7l7 0l0 7"/></svg>
+        <h3>AI-native delivery</h3>
+        <p>We run our own business on agents and automation. We're not selling a concept we haven't lived.</p>
+      </div>
+    </div>
+
+    <div class="compare reveal">
+      <h3>Practical business value over AI hype. Every time.</h3>
+      <div class="cols">
+        <div class="c-col">
+          <header>Automation shops</header>
+          <div class="row"><em>What they sell</em><span>Wired-up tools</span></div>
+          <div class="row"><em>Where they start</em><span>The tool</span></div>
+          <div class="row"><em>When they leave</em><span>On handoff</span></div>
+          <div class="row"><em>What you're left with</em><span>More tools to manage</span></div>
+        </div>
+        <div class="c-col">
+          <header>AI dev agencies</header>
+          <div class="row"><em>What they sell</em><span>Chatbots and demos</span></div>
+          <div class="row"><em>Where they start</em><span>The model</span></div>
+          <div class="row"><em>When they leave</em><span>On demo day</span></div>
+          <div class="row"><em>What you're left with</em><span>A demo that impressed</span></div>
+        </div>
+        <div class="c-col vdx">
+          <header>VectorDynamix</header>
+          <div class="row"><em>What we sell</em><span>An operating model</span></div>
+          <div class="row"><em>Where we start</em><span>Your bottleneck</span></div>
+          <div class="row"><em>When we leave</em><span>When it sticks</span></div>
+          <div class="row"><em>What you're left with</em><span>Work that moves on its own</span></div>
+        </div>
+      </div>
+    </div>
+
+    <figure class="quote reveal">
+      <blockquote>"We'd been exploring AI for a year with nothing to show. VectorDynamix had a working system in our hands in weeks, and my team kept using it."</blockquote>
+      <figcaption>Founder, growing operations business</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section id="faq" class="block" aria-label="Frequently asked questions">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="h-section">Straight answers to the questions serious operators ask.</h2>
+    </div>
+    <div class="list reveal">
+      <div class="qa">
+        <button class="q" aria-expanded="false">Are you just another AI consultant?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+        </button>
+        <div class="a"><p>No. Consultants hand you a strategy and an invoice. We build the working system and stay hands-on through adoption. We start with your bottleneck, not a tool, and we measure success by whether your team actually uses what we ship.</p></div>
+      </div>
+      <div class="qa">
+        <button class="q" aria-expanded="false">My team is stretched. Won't this be more work than it saves?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+        </button>
+        <div class="a"><p>That fear is exactly why most AI projects fail, so we design against it from day one: clear human review points, guidelines that fit how your team already works, and training on your real tasks. We start with the highest-value workflow so the time you invest pays back fast.</p></div>
+      </div>
+      <div class="qa">
+        <button class="q" aria-expanded="false">Isn't enterprise-grade AI too expensive for a business our size?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+        </button>
+        <div class="a"><p>That's the gap we exist to close. Fortune 500 expertise at SMB pricing: a fixed, transparent Discovery Sprint with no open-ended retainer. You'll know the number before you book and exactly what you get for it.</p></div>
+      </div>
+      <div class="qa">
+        <button class="q" aria-expanded="false">What about our data and security?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+        </button>
+        <div class="a"><p>We set up tooling, context, and permissions properly from day one, with clear boundaries on what any system can access. We work within your environment and your policies, in plain language, with no black boxes.</p></div>
+      </div>
+      <div class="qa">
+        <button class="q" aria-expanded="false">How fast do we actually see something working?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+        </button>
+        <div class="a"><p>Weeks, not quarters. We ship a pilot into your real operating environment early, so you're evaluating a working system rather than a promise.</p></div>
+      </div>
+      <div class="qa">
+        <button class="q" aria-expanded="false">What happens after the Sprint?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l0 14"/><path d="M5 12l14 0"/></svg>
+        </button>
+        <div class="a"><p>You get a prioritized, buildable plan. If you're ready, we build the first pilot with you. If not, the plan is yours to run. The Sprint stands on its own.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= NEWSLETTER ======================= -->
+<section id="newsletter" class="block" aria-label="Newsletter" style="padding-top:0">
+  <div class="wrap">
+    <div class="panel reveal">
+      <div>
+        <h2>One practical AI idea every other week.</h2>
+        <p class="lead">For operators, not spectators. No hype, no filler. Field-tested patterns you can act on before your next team meeting.</p>
+      </div>
+      <div>
+        <form id="nl-form" novalidate>
+          <label for="nl-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Work email</label>
+          <input id="nl-email" type="email" name="email" placeholder="Work email" required autocomplete="email">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+        <p class="note">Every other week. Genuinely useful. One click to leave.</p>
+        <p class="ok" id="nl-ok">Thanks. Check your inbox to confirm.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONTACT ======================= -->
+<section id="contact" class="block" aria-label="Contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="banner reveal">
+      <h2>You have a workflow that keeps getting stuck. We should talk.</h2>
+      <p class="lead">A stuck workflow, a half-formed AI idea, or a team that needs enablement is enough to start. No obligation, no deck, no jargon.</p>
+      <div class="cta-row">
+        <a class="btn btn-glow" href="mailto:founder@vectordynamix.com?subject=Discovery%20Sprint">Book a Discovery Sprint
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
+        </a>
+        <a class="btn btn-ghost-dark" href="mailto:founder@vectordynamix.com?subject=Question%20for%20VectorDynamix">Send a message</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer aria-label="Footer">
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-stage reveal">
+        <video id="f-video" src="assets/vdx-logo-animated.mp4" poster="assets/vdx-logo-poster.jpg" muted playsinline loop preload="metadata" aria-label="VectorDynamix animated logo"></video>
+      </div>
+      <div class="f-cta reveal">
+        <h2>Ready when the timing is right.</h2>
+        <p>Every page ends the same way, because the business does. Bring a problem and we'll show you the AI shape that fits it.</p>
+        <a class="btn btn-primary" href="mailto:founder@vectordynamix.com?subject=Discovery%20Sprint">Book a Discovery Sprint</a>
+        <br>
+        <a class="mail" href="mailto:founder@vectordynamix.com">founder@vectordynamix.com</a>
+        <div class="socials">
+          <a href="https://www.linkedin.com/company/vectordynamix" target="_blank" rel="noopener" aria-label="VectorDynamix on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 1 0 -4 0"/><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/vectordynamix" target="_blank" rel="noopener" aria-label="VectorDynamix on Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M16.5 7.5v.01"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@vectordynamix" target="_blank" rel="noopener" aria-label="VectorDynamix on YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8"/><path d="M10 9l5 3l-5 3l0 -6"/></svg>
+          </a>
+          <a href="https://x.com/vectordynamix" target="_blank" rel="noopener" aria-label="VectorDynamix on X">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16l-4.267 0"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 VectorDynamix. Enterprise AI, built for your size.</span>
+      <nav class="f-links" aria-label="Footer links">
+        <a href="#services">Services</a>
+        <a href="#approach">Our Approach</a>
+        <a href="#why">Why VectorDynamix</a>
+        <a href="#faq">FAQ</a>
+        <a href="#newsletter">Newsletter</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ============ frame film engine ============ */
+var FRAME_COUNT = 120;
+var isMobile = window.innerWidth < 768;
+var FRAME_DIR = "assets/frames/" + (isMobile ? "mobile" : "desktop") + "/";
+var frames = new Array(FRAME_COUNT);
+var loadedCount = 0;
+
+var canvas = document.getElementById("film");
+var ctx = canvas.getContext("2d");
+var hero = document.getElementById("hero");
+var loader = document.getElementById("loader");
+var loadbar = document.getElementById("loadbar");
+
+function frameSrc(i){
+  var n = String(i + 1); while (n.length < 4) n = "0" + n;
+  return FRAME_DIR + "frame-" + n + ".webp";
+}
+
+function sizeCanvas(){
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+}
+sizeCanvas();
+window.addEventListener("resize", function(){ sizeCanvas(); drawFrame(lastDrawn, true); });
+
+function nearestLoaded(i){
+  if (frames[i]) return i;
+  for (var d = 1; d < FRAME_COUNT; d++){
+    if (i - d >= 0 && frames[i - d]) return i - d;
+    if (i + d < FRAME_COUNT && frames[i + d]) return i + d;
+  }
+  return -1;
+}
+
+var lastDrawn = -1;
+function drawFrame(i, force){
+  var j = nearestLoaded(Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(i))));
+  if (j < 0 || (j === lastDrawn && !force)) return;
+  lastDrawn = j;
+  var img = frames[j];
+  var cw = canvas.width, ch = canvas.height;
+  var iw = img.width, ih = img.height;
+  var s = Math.max(cw / iw, ch / ih);
+  var w = iw * s, h = ih * s;
+  ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+}
+
+function loadFrame(i, cb){
+  var img = new Image();
+  img.onload = function(){ frames[i] = img; loadedCount++; cb && cb(); };
+  img.onerror = function(){ loadedCount++; cb && cb(); };
+  img.src = frameSrc(i);
+}
+
+/* critical pass: 12 evenly spaced frames, then everything */
+var critical = [];
+for (var c = 0; c < 12; c++) critical.push(Math.round(c * (FRAME_COUNT - 1) / 11));
+var criticalDone = 0;
+
+function updateBar(){
+  loadbar.style.width = Math.round(100 * loadedCount / FRAME_COUNT) + "%";
+}
+
+function finishLoader(){
+  loader.classList.add("done");
+  setTimeout(function(){ loader.remove(); }, 900);
+}
+
+critical.forEach(function(i){
+  loadFrame(i, function(){
+    criticalDone++; updateBar();
+    if (criticalDone === 1) drawFrame(0, true);
+    if (criticalDone === critical.length){
+      drawFrame(0, true);
+      finishLoader();
+      /* bulk load remaining in small batches */
+      var queue = [];
+      for (var i2 = 0; i2 < FRAME_COUNT; i2++) if (!frames[i2]) queue.push(i2);
+      var idx = 0;
+      (function next(){
+        var batch = 0;
+        while (idx < queue.length && batch < 6){ loadFrame(queue[idx++], function(){ updateBar(); next(); }); batch++; }
+      })();
+    }
+  });
+});
+/* safety: never trap the user on the loader */
+setTimeout(finishLoader, 8000);
+
+/* ============ dwell remap: scroll slows near story beats ============ */
+var DWELL_CENTERS = [0.09, 0.42, 0.76];
+var DWELL_WIDTH = 0.055, DWELL_PEAK = 3.2, N = 1500;
+var lut = new Float64Array(N + 1);
+(function buildLUT(){
+  var acc = 0;
+  var density = function(x){
+    var d = 1;
+    for (var k = 0; k < DWELL_CENTERS.length; k++){
+      var u = (x - DWELL_CENTERS[k]) / DWELL_WIDTH;
+      d += DWELL_PEAK * Math.exp(-u * u);
+    }
+    return d;
+  };
+  var fwd = new Float64Array(N + 1);
+  for (var i = 0; i <= N; i++){ acc += density(i / N); fwd[i] = acc; }
+  for (var i2 = 0; i2 <= N; i2++) fwd[i2] = (fwd[i2] - fwd[0]) / (fwd[N] - fwd[0]);
+  /* invert: raw scroll -> effective progress */
+  var j = 0;
+  for (var i3 = 0; i3 <= N; i3++){
+    var t = i3 / N;
+    while (j < N && fwd[j] < t) j++;
+    var a = j > 0 ? fwd[j - 1] : 0, b = fwd[j];
+    var frac = b > a ? (t - a) / (b - a) : 0;
+    lut[i3] = ((j - 1) + frac) / N;
+  }
+  lut[0] = 0; lut[N] = 1;
+})();
+function remap(p){
+  var x = Math.max(0, Math.min(1, p)) * N;
+  var i = Math.floor(x), f = x - i;
+  return i >= N ? 1 : lut[i] + (lut[i + 1] - lut[i]) * f;
+}
+
+/* ============ main animation loop ============ */
+var beats = Array.prototype.slice.call(document.querySelectorAll(".beat"));
+var railFill = document.getElementById("rail-fill");
+var timelineEl = document.querySelector("#approach .timeline");
+var currentFrame = 0;
+
+function heroProgress(){
+  var r = hero.getBoundingClientRect();
+  var total = r.height - window.innerHeight;
+  return Math.max(0, Math.min(1, -r.top / total));
+}
+
+function tick(){
+  var raw = heroProgress();
+  var p = remap(raw);
+  var target = p * (FRAME_COUNT - 1);
+  currentFrame += (target - currentFrame) * 0.11;
+  if (Math.abs(target - currentFrame) < 0.01) currentFrame = target;
+  drawFrame(currentFrame);
+
+  for (var i = 0; i < beats.length; i++){
+    var show = parseFloat(beats[i].getAttribute("data-show"));
+    var hide = parseFloat(beats[i].getAttribute("data-hide"));
+    beats[i].classList.toggle("visible", raw >= show && raw <= hide);
+  }
+
+  /* approach rail fill */
+  if (timelineEl){
+    var tr = timelineEl.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var tp = Math.max(0, Math.min(1, (vh * 0.72 - tr.top) / tr.height));
+    railFill.style.height = (tp * 100) + "%";
+  }
+
+  /* services sticky-stack: scale settled cards as the next arrives */
+  for (var s = 0; s < stackCards.length - 1; s++){
+    var nextTop = stackCards[s + 1].parentElement.getBoundingClientRect().top;
+    var prog = Math.max(0, Math.min(1, 1 - (nextTop - navH) / (window.innerHeight * 0.75)));
+    stackCards[s].style.transform = "scale(" + (1 - prog * 0.045) + ")";
+    stackCards[s].style.filter = "brightness(" + (1 - prog * 0.06) + ")";
+  }
+
+  requestAnimationFrame(tick);
+}
+
+var stackCards = Array.prototype.slice.call(document.querySelectorAll(".s-card"));
+var navH = 84;
+if (!reduceMotion) requestAnimationFrame(tick);
+else { drawFrame(FRAME_COUNT - 1, true); }
+
+/* ============ nav state ============ */
+var nav = document.getElementById("nav");
+var navObserver = new IntersectionObserver(function(entries){
+  nav.classList.toggle("solid", !entries[0].isIntersecting);
+}, { rootMargin: "-72px 0px 0px 0px", threshold: 0 });
+navObserver.observe(hero);
+
+/* ============ reveals ============ */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (e.isIntersecting){ e.target.classList.add("visible"); io.unobserve(e.target); }
+  });
+}, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".reveal, .step").forEach(function(el){ io.observe(el); });
+
+/* ============ FAQ accordion ============ */
+document.querySelectorAll(".qa").forEach(function(qa){
+  var btn = qa.querySelector(".q"), a = qa.querySelector(".a");
+  btn.addEventListener("click", function(){
+    var open = qa.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    a.style.maxHeight = open ? a.scrollHeight + "px" : "0px";
+  });
+});
+
+/* ============ footer video: play only when visible ============ */
+var fv = document.getElementById("f-video");
+if (fv && !reduceMotion){
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ fv.play().catch(function(){}); }
+      else { fv.pause(); }
+    });
+  }, { threshold: 0.35 }).observe(fv);
+}
+
+/* ============ newsletter (no backend yet: hand off to email) ============ */
+document.getElementById("nl-form").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var email = document.getElementById("nl-email");
+  if (!email.checkValidity()){ email.reportValidity(); return; }
+  document.getElementById("nl-ok").style.display = "block";
+  window.location.href = "mailto:founder@vectordynamix.com?subject=Newsletter%20signup&body=" +
+    encodeURIComponent("Please add " + email.value + " to the VectorDynamix newsletter.");
+});
+})();
+</script>
+</body>
+</html>

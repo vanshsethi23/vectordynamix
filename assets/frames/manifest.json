@@ -1,6 +1,6 @@
 {
   "source": {
-    "filename": "ca090c45-vdxvideo_1.mp4",
+    "filename": "d87092c9-vdxvideo_1.mp4",
     "duration": 10.01,
     "resolution": "1280x720",
     "fps": 24.0,
@@ -14,19 +14,19 @@
     "naming_pattern": "frame-{NNNN}.webp"
   },
   "recommended_scroll_height": "400vh",
-  "created": "2026-07-07T19:42:12",
+  "created": "2026-07-07T20:36:42",
   "desktop": {
     "resolution": "1280x720",
     "actual_count": 120,
-    "total_bytes": 7470226,
-    "avg_frame_bytes": 62251,
-    "total_mb": 7.12
+    "total_bytes": 5794810,
+    "avg_frame_bytes": 48290,
+    "total_mb": 5.53
   },
   "mobile": {
     "resolution": "960x540",
     "actual_count": 120,
-    "total_bytes": 5453746,
-    "avg_frame_bytes": 45447,
-    "total_mb": 5.2
+    "total_bytes": 4189970,
+    "avg_frame_bytes": 34916,
+    "total_mb": 4.0
   }
 }

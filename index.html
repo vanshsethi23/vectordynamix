@@ -121,14 +121,11 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
 #nav .brand img.mark{height:30px;width:auto}
 #nav .brand img.word{height:17px;width:auto;transform:translateY(1px)}
 #nav .links{display:flex;align-items:center;gap:clamp(16px,2.4vw,32px);font-weight:500;font-size:.95rem}
-#nav .links a{color:var(--white);opacity:.85;transition:opacity .25s}
+#nav .links a{color:var(--ink);opacity:.75;transition:opacity .25s}
 #nav .links a:hover{opacity:1}
 #nav .btn{padding:10px 20px;font-size:.9rem}
-#nav .logo-dark{display:none}
+#nav .logo-light{display:none}
 #nav.solid{background:rgba(239,238,236,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
-#nav.solid .links a{color:var(--ink)}
-#nav.solid .logo-dark{display:block}
-#nav.solid .logo-light{display:none}
 @media (max-width:820px){
   #nav .links{display:none}
   #nav .brand img.word{display:none}
@@ -136,12 +133,13 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
 }
 
 /* ---------- hero scroll animation ---------- */
-#hero{position:relative;height:420vh;background:var(--ink)}
+#hero{position:relative;height:480vh;background:var(--bone)}
 #hero .stage{position:sticky;top:0;height:100dvh;overflow:hidden}
 #hero canvas{position:absolute;inset:0;width:100%;height:100%}
 #hero .shade{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.25) 46%,rgba(0,0,0,0) 70%),
-             linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 30%)}
+  background:linear-gradient(90deg,rgba(239,238,236,.88) 0%,rgba(239,238,236,.42) 42%,rgba(239,238,236,0) 68%),
+             linear-gradient(0deg,rgba(239,238,236,.72) 0%,rgba(239,238,236,0) 32%),
+             linear-gradient(180deg,rgba(239,238,236,.65) 0%,rgba(239,238,236,0) 14%)}
 #hero .grain{position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -152,21 +150,37 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
   transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease),visibility .7s;
 }
 .beat.visible{opacity:1;visibility:visible;transform:translateY(0);filter:blur(0);pointer-events:auto}
-.beat .inner{max-width:640px;color:var(--white)}
-.beat h1,.beat h2{color:var(--white)}
-.beat .lead{color:rgba(255,255,255,.82)}
+.beat .wrap{width:100%}
+.beat .inner{max-width:640px;color:var(--ink)}
+.beat h1{color:var(--ink)}
+.beat .lead{color:var(--g-700)}
 .beat .grad-phrase{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .beat .cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-.beat-2 h2,.beat-3 h2{font-size:clamp(1.9rem,4.4vw,3.4rem);max-width:18ch}
 .beat .body-line{margin-top:22px}
-.hero-stats{display:flex;gap:clamp(20px,4vw,54px);margin-top:38px;flex-wrap:wrap}
-.hero-stats div{max-width:180px}
-.hero-stats strong{display:block;font-size:clamp(1.25rem,2.2vw,1.7rem);letter-spacing:-0.02em;line-height:1.2;margin-bottom:6px}
-.hero-stats span{color:rgba(255,255,255,.72);font-size:.92rem;line-height:1.45;display:block}
+
+/* story cards over the hero film (one per dwell) */
+.beat-card{
+  max-width:440px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.6);
+  border-radius:calc(var(--r-card) + 4px);
+  padding:clamp(26px,3.4vw,44px);
+  box-shadow:0 40px 90px -30px rgba(43,41,38,.45);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.beat-card .num{
+  display:block;color:var(--blue);font-weight:700;letter-spacing:.14em;
+  font-variant-numeric:tabular-nums;font-size:.95rem;margin-bottom:16px;
+}
+.beat-card h2{font-size:clamp(1.45rem,2.6vw,2rem);color:var(--ink);letter-spacing:-0.02em;margin-bottom:12px}
+.beat-card p{color:var(--g-600);line-height:1.6}
+.beat-card .stat{display:block;margin-top:26px;color:var(--blue);font-weight:700;
+  font-size:clamp(2.2rem,4vw,3.1rem);letter-spacing:-0.03em;line-height:1}
+.beat-card .stat-label{display:block;margin-top:8px;color:var(--g-500);font-size:.95rem}
 @media (max-width:640px){
   .beat{align-items:flex-end}
   .beat .inner{padding-bottom:12dvh}
   .beat .cta-row .btn{padding:13px 22px;font-size:.95rem}
+  .beat-card{padding:24px;max-width:none;margin-bottom:6dvh}
+  .beat-card .stat{font-size:2rem}
 }
 
 /* ---------- generic reveal ---------- */
@@ -320,20 +334,33 @@ section.block{padding:clamp(84px,11vw,150px) 0}
 #contact .lead{color:rgba(255,255,255,.75);margin:20px auto 0;max-width:52ch}
 #contact .cta-row{display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap;position:relative;z-index:1}
 
+/* ---------- outro: scroll-driven logo build ---------- */
+#outro{position:relative;height:280vh;background:var(--stage)}
+#outro .stage{position:sticky;top:0;height:100dvh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center}
+#outro canvas{position:absolute;inset:0;width:100%;height:100%}
+
 /* ---------- footer ---------- */
 footer{padding:clamp(70px,9vw,120px) 0 40px}
-.f-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:center}
-.f-stage{
-  background:var(--stage);border-radius:var(--r-card);overflow:hidden;
-  border:1px solid var(--g-200);position:relative;
+.f-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,5vw,90px);align-items:start}
+.f-form h2{font-size:clamp(1.5rem,2.6vw,2.1rem);max-width:18ch}
+.f-form > p{color:var(--g-600);margin:14px 0 28px;max-width:48ch}
+.f-form form{display:flex;flex-direction:column;gap:14px}
+.f-form label{font-weight:600;font-size:.92rem;display:block;margin-bottom:6px}
+.f-form input,.f-form textarea{
+  width:100%;padding:14px 16px;border-radius:var(--r-input);
+  border:1px solid var(--g-300);background:var(--white);font:inherit;color:var(--ink);
 }
-.f-stage video{width:100%;height:auto;display:block;
-  mask-image:radial-gradient(140% 140% at 50% 50%,#000 62%,transparent 98%);
-  -webkit-mask-image:radial-gradient(140% 140% at 50% 50%,#000 62%,transparent 98%);}
-.f-cta h2{font-size:clamp(1.5rem,2.6vw,2.1rem);max-width:16ch}
-.f-cta p{color:var(--g-600);margin:14px 0 28px;max-width:44ch}
+.f-form textarea{min-height:130px;resize:vertical}
+.f-form input::placeholder,.f-form textarea::placeholder{color:var(--g-500)}
+.f-form input:focus,.f-form textarea:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+.f-form .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-form .btn{align-self:flex-start;margin-top:6px}
+.f-form .sent{font-weight:600;color:var(--blue);display:none}
 .f-cta .mail{display:inline-block;margin-top:18px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--g-300);padding-bottom:2px;transition:border-color .3s}
 .f-cta .mail:hover{border-color:var(--ink)}
+.f-cta img.f-mark{height:44px;width:auto}
+.f-cta p{color:var(--g-600);margin:16px 0 0;max-width:36ch}
 .socials{display:flex;gap:12px;margin-top:30px}
 .socials a{
   width:44px;height:44px;border-radius:999px;border:1px solid var(--g-300);
@@ -350,17 +377,18 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
 .f-bottom .f-links{display:flex;gap:22px;flex-wrap:wrap}
 .f-bottom .f-links a{color:var(--g-600);font-weight:500}
 .f-bottom .f-links a:hover{color:var(--ink)}
-@media (max-width:860px){.f-grid{grid-template-columns:1fr}}
+@media (max-width:860px){.f-grid{grid-template-columns:1fr}.f-form .row2{grid-template-columns:1fr}}
 
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal,.step,.beat{opacity:1 !important;visibility:visible !important;transform:none !important;filter:none !important;transition:none !important}
   .beat{position:relative;inset:auto;pointer-events:auto;min-height:0;padding:12vh 0}
-  #hero{height:auto !important;background:var(--ink)}
+  #hero{height:auto !important;background:var(--bone)}
   #hero .stage{position:relative;height:auto;min-height:60dvh}
+  #outro{height:100dvh}
   .stack-item{position:relative;top:0}
-  .s-card{transform:none !important}
+  .s-card{transform:none !important;filter:none !important}
 }
 </style>
 </head>
@@ -400,7 +428,7 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
     <div class="shade"></div>
     <div class="grain"></div>
 
-    <div class="beat beat-1 visible" data-show="0" data-hide="0.24">
+    <div class="beat beat-1 visible" data-show="0" data-hide="0.20">
       <div class="wrap"><div class="inner">
         <h1 class="h-display">Enterprise AI, <span class="grad-phrase">built for your size.</span></h1>
         <p class="lead body-line">Most AI projects stall on adoption, not the model. We build the system and stay until your team runs it.</p>
@@ -408,27 +436,39 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
           <a class="btn btn-primary" href="#contact">Book a Discovery Sprint
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
           </a>
-          <a class="btn btn-ghost-dark" href="#approach">See how we work</a>
+          <a class="btn btn-ghost" href="#approach">See how we work</a>
         </div>
       </div></div>
     </div>
 
-    <div class="beat beat-2" data-show="0.30" data-hide="0.56">
-      <div class="wrap"><div class="inner">
-        <h2>The problem was never the model. It's the operating model.</h2>
-        <p class="lead body-line">The tool got bolted onto a broken process. Nobody owned adoption. Six weeks later, everyone went back to the spreadsheet.</p>
-      </div></div>
+    <div class="beat" data-show="0.26" data-hide="0.46">
+      <div class="wrap"><div class="inner"><div class="beat-card">
+        <span class="num">01</span>
+        <h2>The problem was never the model.</h2>
+        <p>The tool got bolted onto a broken process. Nobody owned adoption. Six weeks later, everyone was back in the spreadsheet.</p>
+        <span class="stat">Week 6</span>
+        <span class="stat-label">when most unowned AI pilots get abandoned</span>
+      </div></div></div>
     </div>
 
-    <div class="beat beat-3" data-show="0.62" data-hide="0.92">
-      <div class="wrap"><div class="inner">
-        <h2>AI fails in the last mile. That last mile is our entire job.</h2>
-        <div class="hero-stats">
-          <div><strong>Weeks,<br>not quarters</strong><span>From first workflow to working pilot.</span></div>
-          <div><strong>One senior partner</strong><span>Named and accountable. Not an agency queue.</span></div>
-          <div><strong>Workflow first</strong><span>We start with your bottleneck, never the tool.</span></div>
-        </div>
-      </div></div>
+    <div class="beat" data-show="0.52" data-hide="0.72">
+      <div class="wrap"><div class="inner"><div class="beat-card">
+        <span class="num">02</span>
+        <h2>It's the operating model.</h2>
+        <p>AI fails in the last mile: the handoffs, the exceptions, the "that's not how we do it here." We redesign how work moves.</p>
+        <span class="stat">0 tools</span>
+        <span class="stat-label">chosen before your bottleneck is named</span>
+      </div></div></div>
+    </div>
+
+    <div class="beat" data-show="0.78" data-hide="0.95">
+      <div class="wrap"><div class="inner"><div class="beat-card">
+        <span class="num">03</span>
+        <h2>Value shows up in weeks.</h2>
+        <p>We start with the workflow that's costing you, ship a working pilot, and stay hands-on until your team runs it.</p>
+        <span class="stat">1 partner</span>
+        <span class="stat-label">senior and named, from first call to working system</span>
+      </div></div></div>
     </div>
   </div>
 </section>
@@ -678,7 +718,7 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         <a class="btn btn-glow" href="mailto:founder@vectordynamix.com?subject=Discovery%20Sprint">Book a Discovery Sprint
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
         </a>
-        <a class="btn btn-ghost-dark" href="mailto:founder@vectordynamix.com?subject=Question%20for%20VectorDynamix">Send a message</a>
+        <a class="btn btn-ghost-dark" href="#message">Send a message</a>
       </div>
     </div>
   </div>
@@ -686,18 +726,44 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
 
 </main>
 
+<!-- ======================= OUTRO: logo build on scroll ======================= -->
+<section id="outro" aria-label="VectorDynamix">
+  <div class="stage">
+    <canvas id="logofilm" aria-hidden="true"></canvas>
+  </div>
+</section>
+
 <!-- ======================= FOOTER ======================= -->
 <footer aria-label="Footer">
   <div class="wrap">
     <div class="f-grid">
-      <div class="f-stage reveal">
-        <video id="f-video" src="assets/vdx-logo-animated.mp4" poster="assets/vdx-logo-poster.jpg" muted playsinline loop preload="metadata" aria-label="VectorDynamix animated logo"></video>
+      <div class="f-form reveal" id="message">
+        <h2>Send us a message.</h2>
+        <p>Tell us what you're trying to improve, where the friction is today, and what you've already tried. A senior partner reads every message and replies with a straight answer.</p>
+        <form id="msg-form" novalidate>
+          <div class="row2">
+            <div>
+              <label for="msg-name">Name</label>
+              <input id="msg-name" name="name" type="text" placeholder="Your name" required autocomplete="name">
+            </div>
+            <div>
+              <label for="msg-email">Work email</label>
+              <input id="msg-email" name="email" type="email" placeholder="you@company.com" required autocomplete="email">
+            </div>
+          </div>
+          <div>
+            <label for="msg-body">Message</label>
+            <textarea id="msg-body" name="message" placeholder="A stuck workflow, a rough AI idea, or a team that needs enablement is enough to start." required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Send a message
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
+          </button>
+          <p class="sent" id="msg-sent">Your email app should open with the message ready to send.</p>
+        </form>
       </div>
       <div class="f-cta reveal">
-        <h2>Ready when the timing is right.</h2>
-        <p>Every page ends the same way, because the business does. Bring a problem and we'll show you the AI shape that fits it.</p>
-        <a class="btn btn-primary" href="mailto:founder@vectordynamix.com?subject=Discovery%20Sprint">Book a Discovery Sprint</a>
-        <br>
+        <img class="f-mark" src="assets/vdx-mark-dark.png" alt="VDX">
+        <p>VectorDynamix is your AI Operating Systems Partner. Enterprise AI, built for your size.</p>
         <a class="mail" href="mailto:founder@vectordynamix.com">founder@vectordynamix.com</a>
         <div class="socials">
           <a href="https://www.linkedin.com/company/vectordynamix" target="_blank" rel="noopener" aria-label="VectorDynamix on LinkedIn">
@@ -734,68 +800,106 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
 "use strict";
 var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ============ frame film engine ============ */
-var FRAME_COUNT = 120;
+/* ============ frame film engine (two sequences) ============ */
 var isMobile = window.innerWidth < 768;
-var FRAME_DIR = "assets/frames/" + (isMobile ? "mobile" : "desktop") + "/";
-var frames = new Array(FRAME_COUNT);
-var loadedCount = 0;
 
-var canvas = document.getElementById("film");
-var ctx = canvas.getContext("2d");
+function makeSequence(opts){
+  var seq = {
+    count: opts.count,
+    dir: opts.dir,
+    fit: opts.fit,               /* "cover" | "width" */
+    bg: opts.bg || null,
+    canvas: opts.canvas,
+    ctx: opts.canvas.getContext("2d"),
+    frames: new Array(opts.count),
+    loaded: 0,
+    lastDrawn: -1,
+    current: 0
+  };
+  seq.src = function(i){
+    var n = String(i + 1); while (n.length < 4) n = "0" + n;
+    return seq.dir + "frame-" + n + ".webp";
+  };
+  seq.size = function(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    seq.canvas.width = seq.canvas.clientWidth * dpr;
+    seq.canvas.height = seq.canvas.clientHeight * dpr;
+  };
+  seq.nearest = function(i){
+    if (seq.frames[i]) return i;
+    for (var d = 1; d < seq.count; d++){
+      if (i - d >= 0 && seq.frames[i - d]) return i - d;
+      if (i + d < seq.count && seq.frames[i + d]) return i + d;
+    }
+    return -1;
+  };
+  seq.draw = function(i, force){
+    var j = seq.nearest(Math.max(0, Math.min(seq.count - 1, Math.round(i))));
+    if (j < 0 || (j === seq.lastDrawn && !force)) return;
+    seq.lastDrawn = j;
+    var img = seq.frames[j];
+    var cw = seq.canvas.width, ch = seq.canvas.height;
+    var iw = img.width, ih = img.height, s, w, h;
+    if (seq.fit === "width" && cw / iw < ch / ih){
+      /* fit width; fill the letterbox with a blurred cover-draw of the same frame */
+      if (seq.bg){ seq.ctx.fillStyle = seq.bg; seq.ctx.fillRect(0, 0, cw, ch); }
+      var s2 = Math.max(cw / iw, ch / ih), w2 = iw * s2, h2 = ih * s2;
+      seq.ctx.save();
+      try { seq.ctx.filter = "blur(26px)"; } catch(e){}
+      seq.ctx.drawImage(img, (cw - w2) / 2, (ch - h2) / 2, w2, h2);
+      seq.ctx.restore();
+      s = cw / iw; w = cw; h = ih * s;
+      seq.ctx.drawImage(img, 0, (ch - h) / 2, w, h);
+    } else {
+      s = Math.max(cw / iw, ch / ih); w = iw * s; h = ih * s;
+      seq.ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    }
+  };
+  seq.load = function(i, cb){
+    var img = new Image();
+    img.onload = function(){ seq.frames[i] = img; seq.loaded++; cb && cb(); };
+    img.onerror = function(){ seq.loaded++; cb && cb(); };
+    img.src = seq.src(i);
+  };
+  seq.bulkLoad = function(batchSize, each){
+    var queue = [];
+    for (var i = 0; i < seq.count; i++) if (!seq.frames[i]) queue.push(i);
+    var idx = 0;
+    (function next(){
+      var batch = 0;
+      while (idx < queue.length && batch < batchSize){ seq.load(queue[idx++], function(){ each && each(); next(); }); batch++; }
+    })();
+  };
+  seq.size();
+  return seq;
+}
+
+var heroSeq = makeSequence({
+  count: 120,
+  dir: "assets/frames/" + (isMobile ? "mobile" : "desktop") + "/",
+  fit: "cover",
+  canvas: document.getElementById("film")
+});
+var outroSeq = makeSequence({
+  count: 96,
+  dir: "assets/logo-frames/",
+  fit: "width",
+  bg: "#dadbde",
+  canvas: document.getElementById("logofilm")
+});
+
 var hero = document.getElementById("hero");
+var outro = document.getElementById("outro");
 var loader = document.getElementById("loader");
 var loadbar = document.getElementById("loadbar");
 
-function frameSrc(i){
-  var n = String(i + 1); while (n.length < 4) n = "0" + n;
-  return FRAME_DIR + "frame-" + n + ".webp";
-}
-
-function sizeCanvas(){
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = canvas.clientWidth * dpr;
-  canvas.height = canvas.clientHeight * dpr;
-}
-sizeCanvas();
-window.addEventListener("resize", function(){ sizeCanvas(); drawFrame(lastDrawn, true); });
-
-function nearestLoaded(i){
-  if (frames[i]) return i;
-  for (var d = 1; d < FRAME_COUNT; d++){
-    if (i - d >= 0 && frames[i - d]) return i - d;
-    if (i + d < FRAME_COUNT && frames[i + d]) return i + d;
-  }
-  return -1;
-}
-
-var lastDrawn = -1;
-function drawFrame(i, force){
-  var j = nearestLoaded(Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(i))));
-  if (j < 0 || (j === lastDrawn && !force)) return;
-  lastDrawn = j;
-  var img = frames[j];
-  var cw = canvas.width, ch = canvas.height;
-  var iw = img.width, ih = img.height;
-  var s = Math.max(cw / iw, ch / ih);
-  var w = iw * s, h = ih * s;
-  ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
-}
-
-function loadFrame(i, cb){
-  var img = new Image();
-  img.onload = function(){ frames[i] = img; loadedCount++; cb && cb(); };
-  img.onerror = function(){ loadedCount++; cb && cb(); };
-  img.src = frameSrc(i);
-}
-
-/* critical pass: 12 evenly spaced frames, then everything */
-var critical = [];
-for (var c = 0; c < 12; c++) critical.push(Math.round(c * (FRAME_COUNT - 1) / 11));
-var criticalDone = 0;
+window.addEventListener("resize", function(){
+  heroSeq.size(); heroSeq.draw(heroSeq.lastDrawn, true);
+  outroSeq.size(); outroSeq.draw(outroSeq.lastDrawn, true);
+});
 
 function updateBar(){
-  loadbar.style.width = Math.round(100 * loadedCount / FRAME_COUNT) + "%";
+  loadbar.style.width = Math.round(100 * heroSeq.loaded / heroSeq.count) + "%";
 }
 
 function finishLoader(){
@@ -803,29 +907,37 @@ function finishLoader(){
   setTimeout(function(){ loader.remove(); }, 900);
 }
 
+/* critical pass: 12 evenly spaced hero frames, then everything */
+var critical = [];
+for (var c = 0; c < 12; c++) critical.push(Math.round(c * (heroSeq.count - 1) / 11));
+var criticalDone = 0;
 critical.forEach(function(i){
-  loadFrame(i, function(){
+  heroSeq.load(i, function(){
     criticalDone++; updateBar();
-    if (criticalDone === 1) drawFrame(0, true);
+    if (criticalDone === 1) heroSeq.draw(0, true);
     if (criticalDone === critical.length){
-      drawFrame(0, true);
+      heroSeq.draw(0, true);
       finishLoader();
-      /* bulk load remaining in small batches */
-      var queue = [];
-      for (var i2 = 0; i2 < FRAME_COUNT; i2++) if (!frames[i2]) queue.push(i2);
-      var idx = 0;
-      (function next(){
-        var batch = 0;
-        while (idx < queue.length && batch < 6){ loadFrame(queue[idx++], function(){ updateBar(); next(); }); batch++; }
-      })();
+      heroSeq.bulkLoad(6, updateBar);
     }
   });
 });
 /* safety: never trap the user on the loader */
 setTimeout(finishLoader, 8000);
 
+/* outro frames load lazily, once the reader is on their way down */
+var outroLoadStarted = false;
+new IntersectionObserver(function(entries, obs){
+  if (entries[0].isIntersecting && !outroLoadStarted){
+    outroLoadStarted = true;
+    outroSeq.load(0, function(){ outroSeq.draw(0, true); });
+    outroSeq.bulkLoad(4);
+    obs.disconnect();
+  }
+}, { rootMargin: "250% 0px" }).observe(outro);
+
 /* ============ dwell remap: scroll slows near story beats ============ */
-var DWELL_CENTERS = [0.09, 0.42, 0.76];
+var DWELL_CENTERS = [0.08, 0.36, 0.62, 0.865];
 var DWELL_WIDTH = 0.055, DWELL_PEAK = 3.2, N = 1500;
 var lut = new Float64Array(N + 1);
 (function buildLUT(){
@@ -862,21 +974,27 @@ function remap(p){
 var beats = Array.prototype.slice.call(document.querySelectorAll(".beat"));
 var railFill = document.getElementById("rail-fill");
 var timelineEl = document.querySelector("#approach .timeline");
-var currentFrame = 0;
 
-function heroProgress(){
-  var r = hero.getBoundingClientRect();
+function sectionProgress(el){
+  var r = el.getBoundingClientRect();
   var total = r.height - window.innerHeight;
   return Math.max(0, Math.min(1, -r.top / total));
 }
 
 function tick(){
-  var raw = heroProgress();
+  var raw = sectionProgress(hero);
   var p = remap(raw);
-  var target = p * (FRAME_COUNT - 1);
-  currentFrame += (target - currentFrame) * 0.11;
-  if (Math.abs(target - currentFrame) < 0.01) currentFrame = target;
-  drawFrame(currentFrame);
+  var target = p * (heroSeq.count - 1);
+  heroSeq.current += (target - heroSeq.current) * 0.11;
+  if (Math.abs(target - heroSeq.current) < 0.01) heroSeq.current = target;
+  heroSeq.draw(heroSeq.current);
+
+  /* outro: linear scrub through the logo build */
+  var op = sectionProgress(outro);
+  var otarget = op * (outroSeq.count - 1);
+  outroSeq.current += (otarget - outroSeq.current) * 0.13;
+  if (Math.abs(otarget - outroSeq.current) < 0.01) outroSeq.current = otarget;
+  if (outroLoadStarted) outroSeq.draw(outroSeq.current);
 
   for (var i = 0; i < beats.length; i++){
     var show = parseFloat(beats[i].getAttribute("data-show"));
@@ -906,7 +1024,10 @@ function tick(){
 var stackCards = Array.prototype.slice.call(document.querySelectorAll(".s-card"));
 var navH = 84;
 if (!reduceMotion) requestAnimationFrame(tick);
-else { drawFrame(FRAME_COUNT - 1, true); }
+else {
+  heroSeq.load(heroSeq.count - 1, function(){ heroSeq.draw(heroSeq.count - 1, true); });
+  outroSeq.load(outroSeq.count - 1, function(){ outroSeq.draw(outroSeq.count - 1, true); });
+}
 
 /* ============ nav state ============ */
 var nav = document.getElementById("nav");
@@ -933,16 +1054,20 @@ document.querySelectorAll(".qa").forEach(function(qa){
   });
 });
 
-/* ============ footer video: play only when visible ============ */
-var fv = document.getElementById("f-video");
-if (fv && !reduceMotion){
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting){ fv.play().catch(function(){}); }
-      else { fv.pause(); }
-    });
-  }, { threshold: 0.35 }).observe(fv);
-}
+/* ============ message form (no backend yet: hand off to email) ============ */
+document.getElementById("msg-form").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var name = document.getElementById("msg-name");
+  var email = document.getElementById("msg-email");
+  var body = document.getElementById("msg-body");
+  if (!name.checkValidity()){ name.reportValidity(); return; }
+  if (!email.checkValidity()){ email.reportValidity(); return; }
+  if (!body.checkValidity()){ body.reportValidity(); return; }
+  document.getElementById("msg-sent").style.display = "block";
+  window.location.href = "mailto:founder@vectordynamix.com?subject=" +
+    encodeURIComponent("Message from " + name.value) +
+    "&body=" + encodeURIComponent(body.value + "\n\n" + name.value + "\n" + email.value);
+});
 
 /* ============ newsletter (no backend yet: hand off to email) ============ */
 document.getElementById("nl-form").addEventListener("submit", function(ev){

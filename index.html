@@ -266,18 +266,21 @@ section.block{padding:clamp(84px,11vw,150px) 0}
 
 .compare{margin-top:clamp(64px,9vw,110px)}
 .compare h3{font-size:clamp(1.5rem,2.8vw,2.2rem);max-width:20ch;margin-bottom:clamp(30px,4vw,48px)}
-.compare .cols{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:16px;align-items:stretch}
-.c-col{background:var(--white);border:1px solid var(--g-200);border-radius:var(--r-card);padding:clamp(22px,3vw,34px)}
-.c-col header{font-weight:700;font-size:1.1rem;padding-bottom:16px;margin-bottom:4px;letter-spacing:-0.01em}
-.c-col .row{padding:14px 0;border-top:1px solid var(--g-200)}
-.c-col .row em{display:block;font-style:normal;font-size:.8rem;color:var(--g-500);margin-bottom:3px}
-.c-col .row span{font-weight:500}
-.c-col.vdx{background:var(--ink);border-color:var(--ink);color:var(--white);transform:translateY(-10px)}
-.c-col.vdx .row{border-top-color:rgba(255,255,255,.16)}
-.c-col.vdx .row em{color:rgba(255,255,255,.55)}
-@media (max-width:860px){
-  .compare .cols{grid-template-columns:1fr}
-  .c-col.vdx{transform:none;order:-1}
+.ctable-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-top:6px}
+.ctable{width:100%;min-width:640px;border-collapse:separate;border-spacing:0;text-align:left}
+.ctable th,.ctable td{padding:20px clamp(18px,2.4vw,32px);vertical-align:top}
+.ctable thead th{font-size:clamp(1rem,1.5vw,1.15rem);font-weight:700;letter-spacing:-0.01em;color:var(--ink)}
+.ctable th:first-child{position:sticky;left:0;background:var(--bone);z-index:2}
+.ctable thead th:first-child{color:var(--g-500);font-weight:500;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase}
+.ctable tbody th{font-weight:500;color:var(--g-500);font-size:.9rem;width:24%}
+.ctable tbody td{font-weight:600;color:var(--ink);font-size:clamp(.98rem,1.3vw,1.08rem)}
+.ctable tbody tr th,.ctable tbody tr td{border-top:1px solid var(--g-200)}
+.ctable .ct-vdx{background:var(--ink);color:var(--white)}
+.ctable thead .ct-vdx{border-top-left-radius:var(--r-card);border-top-right-radius:var(--r-card)}
+.ctable tbody tr:last-child .ct-vdx{border-bottom-left-radius:var(--r-card);border-bottom-right-radius:var(--r-card)}
+.ctable tbody .ct-vdx{border-top-color:rgba(255,255,255,.16)}
+@media (max-width:640px){
+  .ctable th,.ctable td{padding:16px 16px}
 }
 
 .quote{margin-top:clamp(64px,9vw,110px);max-width:820px}
@@ -608,28 +611,43 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
 
     <div class="compare reveal">
       <h3>Practical business value over AI hype. Every time.</h3>
-      <div class="cols">
-        <div class="c-col">
-          <header>Automation shops</header>
-          <div class="row"><em>What they sell</em><span>Wired-up tools</span></div>
-          <div class="row"><em>Where they start</em><span>The tool</span></div>
-          <div class="row"><em>When they leave</em><span>On handoff</span></div>
-          <div class="row"><em>What you're left with</em><span>More tools to manage</span></div>
-        </div>
-        <div class="c-col">
-          <header>AI dev agencies</header>
-          <div class="row"><em>What they sell</em><span>Chatbots and demos</span></div>
-          <div class="row"><em>Where they start</em><span>The model</span></div>
-          <div class="row"><em>When they leave</em><span>On demo day</span></div>
-          <div class="row"><em>What you're left with</em><span>A demo that impressed</span></div>
-        </div>
-        <div class="c-col vdx">
-          <header>VectorDynamix</header>
-          <div class="row"><em>What we sell</em><span>An operating model</span></div>
-          <div class="row"><em>Where we start</em><span>Your bottleneck</span></div>
-          <div class="row"><em>When we leave</em><span>When it sticks</span></div>
-          <div class="row"><em>What you're left with</em><span>Work that moves on its own</span></div>
-        </div>
+      <div class="ctable-scroll">
+        <table class="ctable">
+          <thead>
+            <tr>
+              <th scope="col">The difference</th>
+              <th scope="col">Automation shops</th>
+              <th scope="col">AI dev agencies</th>
+              <th scope="col" class="ct-vdx">VectorDynamix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">What's sold</th>
+              <td>Wired-up tools</td>
+              <td>Chatbots and demos</td>
+              <td class="ct-vdx">An operating model</td>
+            </tr>
+            <tr>
+              <th scope="row">Where it starts</th>
+              <td>The tool</td>
+              <td>The model</td>
+              <td class="ct-vdx">Your bottleneck</td>
+            </tr>
+            <tr>
+              <th scope="row">When they leave</th>
+              <td>On handoff</td>
+              <td>On demo day</td>
+              <td class="ct-vdx">When it sticks</td>
+            </tr>
+            <tr>
+              <th scope="row">What you're left with</th>
+              <td>More tools to manage</td>
+              <td>A demo that impressed</td>
+              <td class="ct-vdx">Work that moves on its own</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 

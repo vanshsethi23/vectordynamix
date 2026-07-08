@@ -120,15 +120,17 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
 #nav .brand{display:flex;align-items:center;gap:12px;flex:none}
 #nav .brand img.mark{height:30px;width:auto}
 #nav .brand img.word{height:17px;width:auto;transform:translateY(1px)}
-#nav .links{display:flex;align-items:center;gap:clamp(16px,2.4vw,32px);font-weight:500;font-size:.95rem}
-#nav .links a{color:var(--ink);opacity:.75;transition:opacity .25s}
+#nav .links{display:flex;align-items:center;gap:clamp(14px,2vw,30px);font-weight:500;font-size:.95rem}
+#nav .links a{color:var(--ink);opacity:.75;transition:opacity .25s;white-space:nowrap}
 #nav .links a:hover{opacity:1}
 #nav .btn{padding:10px 20px;font-size:.9rem}
 #nav .logo-light{display:none}
 #nav.solid{background:rgba(239,238,236,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
-@media (max-width:820px){
-  #nav .links{display:none}
+@media (max-width:1120px){
   #nav .brand img.word{display:none}
+}
+@media (max-width:940px){
+  #nav .links{display:none}
   #nav .brand img.mark{height:34px}
 }
 
@@ -187,6 +189,7 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
 .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+section[id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
 section.block{padding:clamp(84px,11vw,150px) 0}
 .section-head{margin-bottom:clamp(40px,6vw,72px)}
 .section-head .lead{margin-top:18px}
@@ -283,11 +286,37 @@ section.block{padding:clamp(84px,11vw,150px) 0}
   .ctable th,.ctable td{padding:16px 16px}
 }
 
-.quote{margin-top:clamp(64px,9vw,110px);max-width:820px}
-.quote blockquote{
-  font-size:clamp(1.25rem,2.4vw,1.75rem);font-weight:500;letter-spacing:-0.02em;line-height:1.4;
+/* ---------- testimonials (client experiences) ---------- */
+#testimonials .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+#testimonials .section-head .lead{margin-top:14px}
+#testimonials .eyebrow{color:var(--g-500);font-weight:600;font-size:.9rem;margin-bottom:14px}
+.t-grid{columns:3;column-gap:18px}
+.t-card{
+  break-inside:avoid;margin-bottom:18px;border-radius:18px;padding:20px 22px;
+  display:flex;gap:16px;align-items:flex-start;
+  border:1px solid transparent;
 }
-.quote figcaption{margin-top:18px;color:var(--g-500);font-size:.95rem}
+.t-card .av{
+  width:46px;height:46px;flex:none;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.95rem;letter-spacing:.02em;
+}
+.t-card .tx{min-width:0}
+.t-card p{font-size:1rem;line-height:1.5;color:var(--ink);font-weight:500}
+.t-card cite{display:block;margin-top:10px;font-style:normal;font-size:.85rem;color:var(--g-500);font-weight:500}
+/* on-brand tints: blue, violet, warm neutral (rotated) */
+.t-card.blue{background:rgba(0,85,254,.06);border-color:rgba(0,85,254,.12)}
+.t-card.blue .av{background:rgba(0,85,254,.14);color:var(--blue)}
+.t-card.violet{background:rgba(128,89,227,.08);border-color:rgba(128,89,227,.15)}
+.t-card.violet .av{background:rgba(128,89,227,.16);color:var(--violet)}
+.t-card.neutral{background:var(--g-100);border-color:var(--g-200)}
+.t-card.neutral .av{background:var(--white);color:var(--g-700);border:1px solid var(--g-200)}
+.t-card.ink{background:var(--ink);border-color:var(--ink)}
+.t-card.ink p{color:var(--white)}
+.t-card.ink cite{color:rgba(255,255,255,.6)}
+.t-card.ink .av{background:rgba(255,255,255,.12);color:var(--white)}
+@media (max-width:900px){.t-grid{columns:2}}
+@media (max-width:600px){.t-grid{columns:1}}
 
 /* ---------- FAQ ---------- */
 #faq .list{max-width:820px}
@@ -416,7 +445,8 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
       <a href="#services">Services</a>
       <a href="#approach">Our Approach</a>
       <a href="#why">Why VectorDynamix</a>
-      <a href="#faq">FAQ</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#faq">FAQs</a>
     </nav>
     <a class="btn btn-primary" href="#contact">Book a Discovery Sprint</a>
   </div>
@@ -651,10 +681,53 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
       </div>
     </div>
 
-    <figure class="quote reveal">
-      <blockquote>"We'd been exploring AI for a year with nothing to show. VectorDynamix had a working system in our hands in weeks, and my team kept using it."</blockquote>
-      <figcaption>Founder, growing operations business</figcaption>
-    </figure>
+  </div>
+</section>
+
+<!-- ======================= TESTIMONIALS ======================= -->
+<section id="testimonials" class="block" aria-label="Testimonials" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">In their own words</p>
+        <h2 class="h-section">Operators trust us because we speak their language: outcomes.</h2>
+      </div>
+      <p class="lead">The proof is adoption, measured. Not applause at a demo.</p>
+    </div>
+    <div class="t-grid reveal">
+      <div class="t-card blue">
+        <div class="av">PN</div>
+        <div class="tx"><p>They found the one workflow eating our week and rebuilt it. My team uses it every single day now.</p><cite>Priya N., COO</cite></div>
+      </div>
+      <div class="t-card neutral">
+        <div class="av">MR</div>
+        <div class="tx"><p>A working system in our hands in weeks, not a slide deck. That never happened with the last two vendors.</p><cite>Marcus R., Founder</cite></div>
+      </div>
+      <div class="t-card violet">
+        <div class="av">AK</div>
+        <div class="tx"><p>They stayed until adoption stuck. That is the part I did not think would happen.</p><cite>Aisha K., Head of Operations</cite></div>
+      </div>
+      <div class="t-card ink">
+        <div class="av">TL</div>
+        <div class="tx"><p>Agents we actually trust, with real human review points built in from day one.</p><cite>Tomas L., CTO</cite></div>
+      </div>
+      <div class="t-card violet">
+        <div class="av">RM</div>
+        <div class="tx"><p>No hype, no jargon. Just work that moves on its own once they leave.</p><cite>Rhea M., Founder</cite></div>
+      </div>
+      <div class="t-card neutral">
+        <div class="av">DS</div>
+        <div class="tx"><p>They started with our bottleneck, never the tool. The fix landed exactly where it hurt.</p><cite>Devan S., Operations Lead</cite></div>
+      </div>
+      <div class="t-card blue">
+        <div class="av">KA</div>
+        <div class="tx"><p>Enablement grounded in our real tasks, not another strategy talk. The capability is ours now.</p><cite>Ken A., Innovation Lead</cite></div>
+      </div>
+      <div class="t-card violet">
+        <div class="av">LV</div>
+        <div class="tx"><p>Fortune 500 thinking, priced for how a business our size actually operates.</p><cite>Lena V., Managing Director</cite></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -805,7 +878,8 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         <a href="#services">Services</a>
         <a href="#approach">Our Approach</a>
         <a href="#why">Why VectorDynamix</a>
-        <a href="#faq">FAQ</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#faq">FAQs</a>
         <a href="#newsletter">Newsletter</a>
         <a href="#contact">Contact</a>
       </nav>

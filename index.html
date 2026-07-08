@@ -212,11 +212,23 @@ section.block{padding:clamp(84px,11vw,150px) 0}
 }
 .s-card .icon svg{width:26px;height:26px}
 .s-card h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin-bottom:6px}
-.s-card .tag{color:var(--blue);font-weight:600;margin-bottom:16px}
-.s-card p.body{color:var(--g-600);max-width:46ch}
-.s-card ul{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:10px}
-.s-card li{display:flex;gap:12px;align-items:flex-start;color:var(--g-700)}
+.s-card .tag{color:var(--blue);font-weight:600;margin-bottom:20px}
+.s-card ul{list-style:none;display:flex;flex-direction:column;gap:14px;margin:0}
+.s-card li{display:flex;gap:12px;align-items:flex-start;color:var(--g-700);max-width:44ch}
 .s-card li svg{width:19px;height:19px;flex:none;color:var(--blue);margin-top:3px}
+/* right column: reserved slot for the per-service animated visual */
+.s-visual{
+  border-radius:16px;border:1px solid var(--g-200);background:var(--g-100);
+  position:relative;overflow:hidden;min-height:240px;align-self:stretch;
+}
+.s-visual::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(78% 78% at 50% 44%,rgba(0,85,254,.16),rgba(128,89,227,.11) 46%,transparent 72%);
+  animation:s-pulse 5.5s ease-in-out infinite;
+}
+.s-visual video,.s-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@keyframes s-pulse{0%,100%{opacity:.5;transform:scale(.96)}50%{opacity:.88;transform:scale(1.02)}}
+@media (prefers-reduced-motion:reduce){.s-visual::before{animation:none}}
 .s-card .outcome{
   margin-top:26px;padding-top:20px;border-top:1px solid var(--g-200);
   font-weight:600;color:var(--ink);
@@ -521,14 +533,14 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 7a5 5 0 1 0 5 5"/><path d="M13 3.055a9 9 0 1 0 7.941 7.945"/><path d="M15 6v3h3l3 -3h-3v-3l-3 3"/><path d="M15 9l-3 3"/></svg></div>
         <h3>AI Discovery Sprint</h3>
         <p class="tag">Find where AI actually pays, before you spend anything building.</p>
-        <p class="body">Most businesses waste their first AI budget building the wrong thing well. The Sprint maps where AI creates real value in your operation, what to build first, and what to leave alone.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Current-state review of your workflows, pain points, and opportunities</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Use cases prioritized by revenue, cost, or customer experience</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>A clear recommendation on your first pilot or product direction</li>
+        </ul>
         <p class="outcome"><em>The outcome</em>You leave with a prioritized plan, not a slide deck.</p>
       </div>
-      <ul>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Current-state review of your workflows, pain points, and opportunities</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Use cases prioritized by revenue, cost, or customer experience</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>A clear recommendation on your first pilot or product direction</li>
-      </ul>
+      <div class="s-visual" aria-hidden="true"><!-- animated visual mockup: AI Discovery Sprint --></div>
     </article></div>
 
     <div class="stack-item"><article class="s-card">
@@ -536,14 +548,14 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M18 5a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M10 5a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M6 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M18 19a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M14 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M22 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M6 12h4"/><path d="M14 12h4"/><path d="M15 7l-2 3"/><path d="M9 7l2 3"/><path d="M11 14l-2 3"/><path d="M13 14l2 3"/></svg></div>
         <h3>Agentic Setup</h3>
         <p class="tag">Agents and workflows your team will actually trust.</p>
-        <p class="body">An agent nobody trusts is a liability with a login. We design agentic systems with the human review points, permissions, and context that make them safe to rely on.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Workflow design with clear human review points</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Tooling, context, and permissions set up properly from day one</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>A pilot that proves itself where the work actually happens</li>
+        </ul>
         <p class="outcome"><em>The outcome</em>A working system in production that earned its place.</p>
       </div>
-      <ul>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Workflow design with clear human review points</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Tooling, context, and permissions set up properly from day one</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>A pilot that proves itself where the work actually happens</li>
-      </ul>
+      <div class="s-visual" aria-hidden="true"><!-- animated visual mockup: Agentic Setup --></div>
     </article></div>
 
     <div class="stack-item"><article class="s-card">
@@ -551,14 +563,14 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/></svg></div>
         <h3>AI Enablement &amp; Training</h3>
         <p class="tag">Your team, working better with AI.</p>
-        <p class="body">Adoption is a skill, not a memo. We run hands-on enablement grounded in your actual work: the real workflows, the real files, the real decisions.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Team workshops grounded in your real work, not generic examples</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Operating guidelines for how people and AI collaborate daily</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Practical training on adoption, evaluation, and rollout</li>
+        </ul>
         <p class="outcome"><em>The outcome</em>The capability stays after we leave.</p>
       </div>
-      <ul>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Team workshops grounded in your real work, not generic examples</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Operating guidelines for how people and AI collaborate daily</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>Practical training on adoption, evaluation, and rollout</li>
-      </ul>
+      <div class="s-visual" aria-hidden="true"><!-- animated visual mockup: AI Enablement &amp; Training --></div>
     </article></div>
 
   </div>

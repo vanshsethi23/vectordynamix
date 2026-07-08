@@ -139,7 +139,7 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
 #hero .stage{position:sticky;top:0;height:100dvh;overflow:hidden}
 #hero canvas{position:absolute;inset:0;width:100%;height:100%}
 #hero .shade{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(239,238,236,.88) 0%,rgba(239,238,236,.42) 42%,rgba(239,238,236,0) 68%),
+  background:linear-gradient(90deg,rgba(239,238,236,.95) 0%,rgba(239,238,236,.78) 38%,rgba(239,238,236,.32) 58%,rgba(239,238,236,0) 76%),
              linear-gradient(0deg,rgba(239,238,236,.72) 0%,rgba(239,238,236,0) 32%),
              linear-gradient(180deg,rgba(239,238,236,.65) 0%,rgba(239,238,236,0) 14%)}
 #hero .grain{position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
@@ -156,7 +156,12 @@ h1,h2,h3{letter-spacing:-0.03em;line-height:1.08;font-weight:700}
 .beat .inner{max-width:640px;color:var(--ink)}
 .beat h1{color:var(--ink)}
 .beat .lead{color:var(--g-700)}
-.beat .grad-phrase{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.beat .grad-phrase{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+  padding-bottom:2px;border-bottom:4px solid transparent;border-image:var(--grad) 1;
+  filter:drop-shadow(0 1px 1px rgba(255,255,255,.85));
+}
 .beat .cta-row{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
 .beat .body-line{margin-top:22px}
 

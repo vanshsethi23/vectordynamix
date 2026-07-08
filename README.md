@@ -10,6 +10,7 @@ Scroll-driven marketing site for VectorDynamix, the AI Operating Systems Partner
 - `assets/logo-frames/` — 96 WebP frames from the animated logo lockup, scrubbed by scroll in the outro section before the footer
 - `assets/vdx-mark-*.png`, `assets/vdx-wordmark-*.png` — transparent logo assets (dark and light variants)
 - `assets/avatars/` — illustrated persona avatars (generated with DiceBear, seeded per person) used in the testimonials carousel
+- `assets/service/` — per-service animated mockup videos (`discovery`, `agentic`, `enablement`) with poster frames, shown in the Services cards and autoplayed only while on screen
 
 ## Run locally
 

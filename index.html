@@ -216,7 +216,7 @@ section.block{padding:clamp(84px,11vw,150px) 0}
 .s-card ul{list-style:none;display:flex;flex-direction:column;gap:14px;margin:0}
 .s-card li{display:flex;gap:12px;align-items:flex-start;color:var(--g-700);max-width:44ch}
 .s-card li svg{width:19px;height:19px;flex:none;color:var(--blue);margin-top:3px}
-/* right column: reserved slot for the per-service animated visual */
+/* right column: the per-service animated visual */
 .s-visual{
   border-radius:16px;border:1px solid var(--g-200);background:var(--g-100);
   position:relative;overflow:hidden;min-height:240px;align-self:stretch;
@@ -226,9 +226,13 @@ section.block{padding:clamp(84px,11vw,150px) 0}
   background:radial-gradient(78% 78% at 50% 44%,rgba(0,85,254,.16),rgba(128,89,227,.11) 46%,transparent 72%);
   animation:s-pulse 5.5s ease-in-out infinite;
 }
-.s-visual video,.s-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* filled slot: video edges are light, so blend the letterbox to match */
+.s-visual.has-video{background:linear-gradient(180deg,#f4f2fb 0%,#f7f6f4 100%)}
+.s-visual.has-video::before{display:none}
+.s-visual video,.s-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 @keyframes s-pulse{0%,100%{opacity:.5;transform:scale(.96)}50%{opacity:.88;transform:scale(1.02)}}
 @media (prefers-reduced-motion:reduce){.s-visual::before{animation:none}}
+@media (max-width:860px){.s-visual{min-height:300px}}
 .s-card .outcome{
   margin-top:26px;padding-top:20px;border-top:1px solid var(--g-200);
   font-weight:600;color:var(--ink);
@@ -553,7 +557,9 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         </ul>
         <p class="outcome"><em>The outcome</em>You leave with a prioritized plan, not a slide deck.</p>
       </div>
-      <div class="s-visual" aria-hidden="true"><!-- animated visual mockup: AI Discovery Sprint --></div>
+      <div class="s-visual has-video" aria-hidden="true">
+        <video data-src="assets/service/discovery.mp4" poster="assets/service/discovery-poster.jpg" muted loop playsinline preload="none"></video>
+      </div>
     </article></div>
 
     <div class="stack-item"><article class="s-card">
@@ -568,7 +574,9 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         </ul>
         <p class="outcome"><em>The outcome</em>A working system in production that earned its place.</p>
       </div>
-      <div class="s-visual" aria-hidden="true"><!-- animated visual mockup: Agentic Setup --></div>
+      <div class="s-visual has-video" aria-hidden="true">
+        <video data-src="assets/service/agentic.mp4" poster="assets/service/agentic-poster.jpg" muted loop playsinline preload="none"></video>
+      </div>
     </article></div>
 
     <div class="stack-item"><article class="s-card">
@@ -583,7 +591,9 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
         </ul>
         <p class="outcome"><em>The outcome</em>The capability stays after we leave.</p>
       </div>
-      <div class="s-visual" aria-hidden="true"><!-- animated visual mockup: AI Enablement &amp; Training --></div>
+      <div class="s-visual has-video" aria-hidden="true">
+        <video data-src="assets/service/enablement.mp4" poster="assets/service/enablement-poster.jpg" muted loop playsinline preload="none"></video>
+      </div>
     </article></div>
 
   </div>
@@ -1162,6 +1172,28 @@ var io = new IntersectionObserver(function(entries){
   });
 }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
 document.querySelectorAll(".reveal, .step").forEach(function(el){ io.observe(el); });
+
+/* ============ service videos: lazy-load + autoplay only while on screen ============ */
+(function(){
+  var vids = Array.prototype.slice.call(document.querySelectorAll(".s-visual video"));
+  if (!vids.length) return;
+  if (reduceMotion){
+    /* reduced motion: never autoplay, leave the poster frame showing */
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var v = e.target;
+      if (e.isIntersecting){
+        if (!v.src && v.dataset.src){ v.src = v.dataset.src; }
+        var p = v.play(); if (p && p.catch) p.catch(function(){});
+      } else {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.4 });
+  vids.forEach(function(v){ io.observe(v); });
+})();
 
 /* ============ testimonials marquee: duplicate cards for a continuous loop ============ */
 (function(){

@@ -298,37 +298,50 @@ section.block{padding:clamp(84px,11vw,150px) 0}
   .ctable th,.ctable td{padding:16px 16px}
 }
 
-/* ---------- testimonials (client experiences) ---------- */
-#testimonials .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-#testimonials .section-head .lead{margin-top:14px}
+/* ---------- testimonials (auto-scrolling carousel) ---------- */
+#testimonials{overflow:hidden}
+#testimonials .wrap{margin-bottom:clamp(36px,5vw,56px)}
 #testimonials .eyebrow{color:var(--g-500);font-weight:600;font-size:.9rem;margin-bottom:14px}
-.t-grid{columns:3;column-gap:18px}
+#testimonials .section-head .lead{margin-top:16px}
+.t-carousel{
+  position:relative;width:100%;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+}
+.t-track{display:flex;width:max-content;align-items:stretch;will-change:transform;animation:t-marquee 55s linear infinite}
+.t-carousel:hover .t-track,.t-carousel:focus-within .t-track{animation-play-state:paused}
+@keyframes t-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .t-card{
-  break-inside:avoid;margin-bottom:18px;border-radius:18px;padding:20px 22px;
-  display:flex;gap:16px;align-items:flex-start;
-  border:1px solid transparent;
+  width:clamp(300px,30vw,368px);flex:none;margin-right:20px;
+  border-radius:18px;padding:24px;border:1px solid transparent;
+  display:flex;flex-direction:column;gap:16px;
 }
+.t-card .head{display:flex;align-items:center;gap:14px}
 .t-card .av{
-  width:46px;height:46px;flex:none;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:.95rem;letter-spacing:.02em;
+  width:52px;height:52px;flex:none;border-radius:14px;overflow:hidden;
+  display:flex;align-items:flex-end;justify-content:center;
 }
-.t-card .tx{min-width:0}
-.t-card p{font-size:1rem;line-height:1.5;color:var(--ink);font-weight:500}
-.t-card cite{display:block;margin-top:10px;font-style:normal;font-size:.85rem;color:var(--g-500);font-weight:500}
-/* on-brand tints: blue, violet, warm neutral (rotated) */
+.t-card .av img{width:100%;height:100%;object-fit:cover;display:block}
+.t-card cite{font-style:normal;font-weight:600;font-size:.98rem;color:var(--ink);line-height:1.25}
+.t-card cite span{display:block;font-weight:500;font-size:.85rem;color:var(--g-500);margin-top:2px}
+.t-card p{font-size:1.02rem;line-height:1.55;color:var(--ink);font-weight:500}
+/* on-brand tints: blue, violet, warm neutral, ink (rotated) */
 .t-card.blue{background:rgba(0,85,254,.06);border-color:rgba(0,85,254,.12)}
-.t-card.blue .av{background:rgba(0,85,254,.14);color:var(--blue)}
+.t-card.blue .av{background:rgba(0,85,254,.14)}
 .t-card.violet{background:rgba(128,89,227,.08);border-color:rgba(128,89,227,.15)}
-.t-card.violet .av{background:rgba(128,89,227,.16);color:var(--violet)}
+.t-card.violet .av{background:rgba(128,89,227,.16)}
 .t-card.neutral{background:var(--g-100);border-color:var(--g-200)}
-.t-card.neutral .av{background:var(--white);color:var(--g-700);border:1px solid var(--g-200)}
+.t-card.neutral .av{background:var(--white);border:1px solid var(--g-200)}
 .t-card.ink{background:var(--ink);border-color:var(--ink)}
 .t-card.ink p{color:var(--white)}
-.t-card.ink cite{color:rgba(255,255,255,.6)}
-.t-card.ink .av{background:rgba(255,255,255,.12);color:var(--white)}
-@media (max-width:900px){.t-grid{columns:2}}
-@media (max-width:600px){.t-grid{columns:1}}
+.t-card.ink cite{color:var(--white)}
+.t-card.ink cite span{color:rgba(255,255,255,.6)}
+.t-card.ink .av{background:rgba(255,255,255,.12)}
+@media (prefers-reduced-motion:reduce){
+  .t-track{animation:none}
+  .t-carousel{overflow-x:auto;scrollbar-width:none}
+  .t-carousel::-webkit-scrollbar{display:none}
+}
 
 /* ---------- FAQ ---------- */
 #faq .list{max-width:820px}
@@ -706,39 +719,41 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
       </div>
       <p class="lead">The proof is adoption, measured. Not applause at a demo.</p>
     </div>
-    <div class="t-grid reveal">
-      <div class="t-card blue">
-        <div class="av">PN</div>
-        <div class="tx"><p>They found the one workflow eating our week and rebuilt it. My team uses it every single day now.</p><cite>Priya N., COO</cite></div>
-      </div>
-      <div class="t-card neutral">
-        <div class="av">MR</div>
-        <div class="tx"><p>A working system in our hands in weeks, not a slide deck. That never happened with the last two vendors.</p><cite>Marcus R., Founder</cite></div>
-      </div>
-      <div class="t-card violet">
-        <div class="av">AK</div>
-        <div class="tx"><p>They stayed until adoption stuck. That is the part I did not think would happen.</p><cite>Aisha K., Head of Operations</cite></div>
-      </div>
-      <div class="t-card ink">
-        <div class="av">TL</div>
-        <div class="tx"><p>Agents we actually trust, with real human review points built in from day one.</p><cite>Tomas L., CTO</cite></div>
-      </div>
-      <div class="t-card violet">
-        <div class="av">RM</div>
-        <div class="tx"><p>No hype, no jargon. Just work that moves on its own once they leave.</p><cite>Rhea M., Founder</cite></div>
-      </div>
-      <div class="t-card neutral">
-        <div class="av">DS</div>
-        <div class="tx"><p>They started with our bottleneck, never the tool. The fix landed exactly where it hurt.</p><cite>Devan S., Operations Lead</cite></div>
-      </div>
-      <div class="t-card blue">
-        <div class="av">KA</div>
-        <div class="tx"><p>Enablement grounded in our real tasks, not another strategy talk. The capability is ours now.</p><cite>Ken A., Innovation Lead</cite></div>
-      </div>
-      <div class="t-card violet">
-        <div class="av">LV</div>
-        <div class="tx"><p>Fortune 500 thinking, priced for how a business our size actually operates.</p><cite>Lena V., Managing Director</cite></div>
-      </div>
+  </div>
+  <div class="t-carousel reveal" aria-label="Client testimonials">
+    <div class="t-track" id="t-track">
+      <article class="t-card blue">
+        <div class="head"><span class="av"><img src="assets/avatars/priya.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Priya N.<span>COO</span></cite></div>
+        <p>They found the one workflow eating our week and rebuilt it. My team uses it every single day now.</p>
+      </article>
+      <article class="t-card neutral">
+        <div class="head"><span class="av"><img src="assets/avatars/marcus.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Marcus R.<span>Founder</span></cite></div>
+        <p>A working system in our hands in weeks, not a slide deck. That never happened with the last two vendors.</p>
+      </article>
+      <article class="t-card violet">
+        <div class="head"><span class="av"><img src="assets/avatars/aisha.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Aisha K.<span>Head of Operations</span></cite></div>
+        <p>They stayed until adoption stuck. That is the part I did not think would happen.</p>
+      </article>
+      <article class="t-card ink">
+        <div class="head"><span class="av"><img src="assets/avatars/tomas.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Tomas L.<span>CTO</span></cite></div>
+        <p>Agents we actually trust, with real human review points built in from day one.</p>
+      </article>
+      <article class="t-card violet">
+        <div class="head"><span class="av"><img src="assets/avatars/rhea.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Rhea M.<span>Founder</span></cite></div>
+        <p>No hype, no jargon. Just work that moves on its own once they leave.</p>
+      </article>
+      <article class="t-card neutral">
+        <div class="head"><span class="av"><img src="assets/avatars/devan.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Devan S.<span>Operations Lead</span></cite></div>
+        <p>They started with our bottleneck, never the tool. The fix landed exactly where it hurt.</p>
+      </article>
+      <article class="t-card blue">
+        <div class="head"><span class="av"><img src="assets/avatars/ken.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Ken A.<span>Innovation Lead</span></cite></div>
+        <p>Enablement grounded in our real tasks, not another strategy talk. The capability is ours now.</p>
+      </article>
+      <article class="t-card violet">
+        <div class="head"><span class="av"><img src="assets/avatars/lena.svg" alt="" width="52" height="52" loading="lazy"></span><cite>Lena V.<span>Managing Director</span></cite></div>
+        <p>Fortune 500 thinking, priced for how a business our size actually operates.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -1147,6 +1162,18 @@ var io = new IntersectionObserver(function(entries){
   });
 }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
 document.querySelectorAll(".reveal, .step").forEach(function(el){ io.observe(el); });
+
+/* ============ testimonials marquee: duplicate cards for a continuous loop ============ */
+(function(){
+  var track = document.getElementById("t-track");
+  if (!track) return;
+  var originals = Array.prototype.slice.call(track.children);
+  originals.forEach(function(card){
+    var clone = card.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    track.appendChild(clone);
+  });
+})();
 
 /* ============ FAQ accordion ============ */
 document.querySelectorAll(".qa").forEach(function(qa){

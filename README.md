@@ -29,4 +29,5 @@ Single page: Home (scroll film: headline plus three story cards) → Services (s
 
 - Social links point at the live `vectordynamixai` handles on LinkedIn, Instagram, YouTube, and X.
 - The "Book a Discovery Sprint" CTA opens `mailto:founder@vectordynamix.com`. Swap in a scheduling link (Calendly etc.) when available.
-- The newsletter and message forms hand off to email. Wire them to an email service provider or form backend before launch.
+- The "Send us a message" form delivers submissions to founder@vectordynamix.com via FormSubmit (no backend). The first time the form is submitted, FormSubmit emails that address a one-time activation link; click it once and every submission thereafter is delivered. If the request ever fails, the form falls back to opening the visitor's mail client.
+- The newsletter form still hands off to email (mailto). Wire it to an email service provider before launch.

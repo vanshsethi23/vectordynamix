@@ -425,6 +425,7 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
 .f-form .btn[disabled]{opacity:.6;pointer-events:none}
 .f-form .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0}
 .f-form .sent{font-weight:600;color:var(--blue);display:none}
+.f-form .err{font-weight:600;color:var(--ink);display:none}
 .f-cta .mail{display:inline-block;margin-top:18px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--g-300);padding-bottom:2px;transition:border-color .3s}
 .f-cta .mail:hover{border-color:var(--ink)}
 .f-cta img.f-mark{height:44px;width:auto}
@@ -875,11 +876,7 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
       <div class="f-form reveal" id="message">
         <h2>Send us a message.</h2>
         <p>Tell us what you're trying to improve, where the friction is today, and what you've already tried. A senior partner reads every message and replies with a straight answer.</p>
-        <form id="msg-form" action="https://formsubmit.co/founder@vectordynamix.com" method="POST">
-          <input type="hidden" name="_subject" value="New message via vectordynamix.com">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" id="msg-next" value="">
+        <form id="msg-form">
           <div class="row2">
             <div>
               <label for="msg-name">Name</label>
@@ -894,11 +891,12 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
             <label for="msg-body">Message</label>
             <textarea id="msg-body" name="message" placeholder="A stuck workflow, a rough AI idea, or a team that needs enablement is enough to start." required></textarea>
           </div>
-          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="hp" aria-hidden="true"><input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
           <button class="btn btn-primary" type="submit"><span class="btn-label">Send a message</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
           </button>
           <p class="sent" id="msg-sent">Thanks. Your message is on its way, and a senior partner will reply.</p>
+          <p class="err" id="msg-err">That did not send. Please email us directly at founder@vectordynamix.com.</p>
         </form>
       </div>
       <div class="f-cta reveal">
@@ -1230,33 +1228,58 @@ document.querySelectorAll(".qa").forEach(function(qa){
 });
 
 /* ============ message form: deliver submissions to founder@vectordynamix.com ============ */
-/* Native POST to FormSubmit (no backend, no CORS). The first submission triggers a
-   one-time activation email to that address; confirm it once and every message
-   thereafter is delivered, returning the visitor to the site with a success note. */
+/* Web3Forms (no backend). Get a free access key at https://web3forms.com for
+   founder@vectordynamix.com and paste it below. Delivery is then automatic and
+   stays on the page. Until a key is set, Send opens the visitor's mail client. */
 (function(){
   var form = document.getElementById("msg-form");
   if (!form) return;
-  var nextInput = document.getElementById("msg-next");
-  if (nextInput) nextInput.value = location.origin + location.pathname + "?sent=1#message";
+  var WEB3FORMS_KEY = "REPLACE_WITH_WEB3FORMS_ACCESS_KEY";
+  var sent = document.getElementById("msg-sent");
+  var err = document.getElementById("msg-err");
+  var btn = form.querySelector("button[type=submit]");
+  var label = btn.querySelector(".btn-label");
 
-  form.addEventListener("submit", function(){
-    var nameEl = document.getElementById("msg-name");
-    var subj = form.querySelector('[name="_subject"]');
-    if (subj && nameEl && nameEl.value){
-      subj.value = "New message from " + nameEl.value + " via vectordynamix.com";
-    }
-    var label = form.querySelector(".btn-label");
-    if (label) label.textContent = "Sending...";
-  });
-
-  /* returning from a successful submission */
-  if (/[?&]sent=1(&|$)/.test(location.search)){
-    var sent = document.getElementById("msg-sent");
-    if (sent) sent.style.display = "block";
-    if (history.replaceState){ history.replaceState(null, "", location.pathname + "#message"); }
-    var anchor = document.getElementById("message");
-    if (anchor){ setTimeout(function(){ anchor.scrollIntoView(); }, 80); }
+  function mailtoFallback(name, email, message){
+    window.location.href = "mailto:founder@vectordynamix.com?subject=" +
+      encodeURIComponent("Message from " + name) +
+      "&body=" + encodeURIComponent(message + "\n\n" + name + "\n" + email);
   }
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    if (!form.checkValidity()){ form.reportValidity(); return; }
+    var name = document.getElementById("msg-name").value;
+    var email = document.getElementById("msg-email").value;
+    var message = document.getElementById("msg-body").value;
+
+    /* key not configured yet: hand off to the visitor's mail app (no error page) */
+    if (WEB3FORMS_KEY.indexOf("REPLACE_WITH") === 0){ mailtoFallback(name, email, message); return; }
+
+    sent.style.display = "none"; err.style.display = "none";
+    btn.disabled = true; label.textContent = "Sending...";
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "New message from " + name + " via vectordynamix.com",
+        from_name: "VectorDynamix website",
+        name: name,
+        email: email,
+        message: message,
+        botcheck: form.querySelector("[name=botcheck]").checked
+      })
+    })
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if (res && res.success){ sent.style.display = "block"; form.reset(); }
+        else { throw new Error(res && res.message || "failed"); }
+      })
+      .catch(function(){ err.style.display = "block"; })
+      .finally(function(){ btn.disabled = false; label.textContent = "Send a message"; });
+  });
 })();
 
 /* ============ newsletter (no backend yet: hand off to email) ============ */

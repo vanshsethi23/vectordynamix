@@ -27,6 +27,6 @@ Single page: Home (scroll film: headline plus three story cards) → Services (s
 
 ## Notes for launch
 
-- Social links point at `/vectordynamix` handles on LinkedIn, Instagram, YouTube, and X. Update if the real handles differ.
+- Social links point at the live `vectordynamixai` handles on LinkedIn, Instagram, YouTube, and X.
 - The "Book a Discovery Sprint" CTA opens `mailto:founder@vectordynamix.com`. Swap in a scheduling link (Calendly etc.) when available.
 - The newsletter and message forms hand off to email. Wire them to an email service provider or form backend before launch.

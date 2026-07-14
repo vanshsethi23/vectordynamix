@@ -425,7 +425,6 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
 .f-form .btn[disabled]{opacity:.6;pointer-events:none}
 .f-form .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0}
 .f-form .sent{font-weight:600;color:var(--blue);display:none}
-.f-form .err{font-weight:600;color:var(--ink);display:none}
 .f-cta .mail{display:inline-block;margin-top:18px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--g-300);padding-bottom:2px;transition:border-color .3s}
 .f-cta .mail:hover{border-color:var(--ink)}
 .f-cta img.f-mark{height:44px;width:auto}
@@ -876,7 +875,11 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
       <div class="f-form reveal" id="message">
         <h2>Send us a message.</h2>
         <p>Tell us what you're trying to improve, where the friction is today, and what you've already tried. A senior partner reads every message and replies with a straight answer.</p>
-        <form id="msg-form" novalidate>
+        <form id="msg-form" action="https://formsubmit.co/founder@vectordynamix.com" method="POST">
+          <input type="hidden" name="_subject" value="New message via vectordynamix.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" id="msg-next" value="">
           <div class="row2">
             <div>
               <label for="msg-name">Name</label>
@@ -896,7 +899,6 @@ footer{padding:clamp(70px,9vw,120px) 0 40px}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7l-10 10"/><path d="M8 7l9 0l0 9"/></svg>
           </button>
           <p class="sent" id="msg-sent">Thanks. Your message is on its way, and a senior partner will reply.</p>
-          <p class="err" id="msg-err">That did not go through. Please email us directly at founder@vectordynamix.com.</p>
         </form>
       </div>
       <div class="f-cta reveal">
@@ -1228,50 +1230,33 @@ document.querySelectorAll(".qa").forEach(function(qa){
 });
 
 /* ============ message form: deliver submissions to founder@vectordynamix.com ============ */
-/* Uses FormSubmit (no backend). First submission triggers a one-time activation
-   email to that address; click it once and every message thereafter is delivered. */
+/* Native POST to FormSubmit (no backend, no CORS). The first submission triggers a
+   one-time activation email to that address; confirm it once and every message
+   thereafter is delivered, returning the visitor to the site with a success note. */
 (function(){
   var form = document.getElementById("msg-form");
   if (!form) return;
-  var ENDPOINT = "https://formsubmit.co/ajax/founder@vectordynamix.com";
-  var sent = document.getElementById("msg-sent");
-  var err = document.getElementById("msg-err");
-  var btn = form.querySelector("button[type=submit]");
-  var label = btn.querySelector(".btn-label");
+  var nextInput = document.getElementById("msg-next");
+  if (nextInput) nextInput.value = location.origin + location.pathname + "?sent=1#message";
 
-  form.addEventListener("submit", function(ev){
-    ev.preventDefault();
-    var name = document.getElementById("msg-name");
-    var email = document.getElementById("msg-email");
-    var body = document.getElementById("msg-body");
-    if (!name.checkValidity()){ name.reportValidity(); return; }
-    if (!email.checkValidity()){ email.reportValidity(); return; }
-    if (!body.checkValidity()){ body.reportValidity(); return; }
-
-    sent.style.display = "none"; err.style.display = "none";
-    btn.disabled = true; label.textContent = "Sending...";
-
-    var data = new FormData();
-    data.append("name", name.value);
-    data.append("email", email.value);           /* becomes the reply-to */
-    data.append("message", body.value);
-    data.append("_subject", "New message from " + name.value + " via vectordynamix.com");
-    data.append("_template", "table");
-    data.append("_captcha", "false");
-    data.append("_honey", form.querySelector("[name=_honey]").value);
-
-    fetch(ENDPOINT, { method: "POST", headers: { "Accept": "application/json" }, body: data })
-      .then(function(r){ if (!r.ok) throw new Error("bad status"); return r.json(); })
-      .then(function(){ sent.style.display = "block"; form.reset(); })
-      .catch(function(){
-        /* resilient fallback: open the visitor's mail client pre-filled */
-        err.style.display = "block";
-        window.location.href = "mailto:founder@vectordynamix.com?subject=" +
-          encodeURIComponent("Message from " + name.value) +
-          "&body=" + encodeURIComponent(body.value + "\n\n" + name.value + "\n" + email.value);
-      })
-      .finally(function(){ btn.disabled = false; label.textContent = "Send a message"; });
+  form.addEventListener("submit", function(){
+    var nameEl = document.getElementById("msg-name");
+    var subj = form.querySelector('[name="_subject"]');
+    if (subj && nameEl && nameEl.value){
+      subj.value = "New message from " + nameEl.value + " via vectordynamix.com";
+    }
+    var label = form.querySelector(".btn-label");
+    if (label) label.textContent = "Sending...";
   });
+
+  /* returning from a successful submission */
+  if (/[?&]sent=1(&|$)/.test(location.search)){
+    var sent = document.getElementById("msg-sent");
+    if (sent) sent.style.display = "block";
+    if (history.replaceState){ history.replaceState(null, "", location.pathname + "#message"); }
+    var anchor = document.getElementById("message");
+    if (anchor){ setTimeout(function(){ anchor.scrollIntoView(); }, 80); }
+  }
 })();
 
 /* ============ newsletter (no backend yet: hand off to email) ============ */
